@@ -1,0 +1,49 @@
+package ui
+
+import "TorPlayer2/torrent"
+import "strings"
+import "fmt"
+import "html"
+
+templ Info(infoHash string, info torrent.Info) {
+	@layout(info.Name) {
+		<main class="box-border px-4 py-2">
+			<p class="text-sm italic">Info Hash: { infoHash }</p>
+			<h1 class="text-2xl font-bold">{ info.Name }</h1>
+			<p>Size: { byteCounter(info.Length) }</p>
+			<table
+				class="my-4 w-full table-auto border-2 border-gray-400 shadow-md shadow-stone-900"
+			>
+				<thead>
+					<tr class="border-b-2 border-gray-400 bg-stone-800">
+						<th class="px-4 py-2">Name</th>
+						<th class="px-4 py-2">Length</th>
+						<th class="px-4 py-2">Completed</th>
+						<th class="px-4 py-2">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					for _, file := range info.Files {
+						<tr class="hover:text-red-600">
+							<td class="px-4 py-2">{ file.DisplayPath }</td>
+							<td class="px-4 py-2 text-right">{ byteCounter(file.Length) }</td>
+							<td class="px-4 py-2 text-right">{ percent(file.BytesCompleted, file.Length) }</td>
+							<td class="px-4 py-2 text-center">
+								if strings.HasSuffix(file.DisplayPath, ".mp4") {
+									<a
+										type="button"
+										href={ templ.SafeURL(fmt.Sprintf("/torrents/%s/watch/%s", infoHash, html.EscapeString(file.DisplayPath))) }
+										class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
+									>
+										<font-awesome-icon icon="fa-play"></font-awesome-icon>
+										Watch
+									</a>
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</main>
+	}
+}

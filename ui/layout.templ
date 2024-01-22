@@ -1,0 +1,41 @@
+package ui
+
+templ layout(title string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<link href="/static/style/output.css" rel="stylesheet"/>
+			<script src="https://kit.fontawesome.com/aff606e071.js" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
+      <title>{ title }</title>
+		</head>
+		<body
+			class="box-border flex min-h-screen w-full flex-col bg-stone-800 text-slate-100"
+		>
+			<nav class="flex items-center justify-between bg-stone-900 px-4 py-4">
+				<a href="/" class="text-2xl font-bold">
+					<div class="flex flex-shrink-0 items-center">
+						<img src="/static/logo.png" alt="TorPlayer" class="m-2 inline h-8"/>
+						<span class="text-xl font-bold">TorPlayer</span>
+					</div>
+				</a>
+				@menu()
+			</nav>
+			{ children... }
+		</body>
+	</html>
+}
+
+templ menu() {
+	<ul class="flex">
+		<li class="mr-6 p-2">
+			<a class="hover:text-red-700" to="/">Home</a>
+		</li>
+		<li class="mr-6 border-b-2 border-red-700 p-2">
+			<a class="hover:text-red-700" href="/torrents">Torrents</a>
+		</li>
+	</ul>
+}

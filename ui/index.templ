@@ -1,0 +1,45 @@
+package ui
+
+templ Index() {
+	@layout("TorPlayer") {
+		<main
+			class="box-border grid w-full flex-grow grid-cols-2 gap-1 bg-stone-700 bg-[url('https://assets.nflxext.com/ffe/siteui/vlv3/16006346-87f9-4226-bc25-a1fb346a2b0c/85aa342e-2d09-4615-8823-dff2961fad86/VN-vi-20240115-popsignuptwoweeks-perspective_alpha_website_large.jpg')] bg-cover bg-center bg-no-repeat bg-blend-multiply"
+		>
+			<div class="flex flex-col items-center justify-center">
+				<h1 class="text-center text-6xl font-bold text-red-700">TorPlayer</h1>
+				<p class="text-center text-2xl">
+					Video streaming from the torrent network
+				</p>
+			</div>
+			<div class="flex flex-col items-center justify-center">
+				<form
+					action="/add-torrent"
+					method="POST"
+					enctype="multipart/form-data"
+					class="flex flex-col items-center justify-center gap-y-4"
+				>
+					<input
+						type="text"
+						name="textInput"
+						autocomplete="off"
+						placeholder="Enter magnet, hash or torrent file link"
+						class="w-full rounded border border-gray-400 bg-stone-700 p-4 text-stone-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none"
+					/>
+					<label for="fileInput" class="my-2 block text-sm">Or Upload Torrent File</label>
+					<input
+						type="file"
+						name="fileInput"
+						accept=".torrent"
+						class="rounded border border-gray-400 bg-stone-700 text-stone-100 file:mr-5 file:rounded-l file:border-[0px] file:bg-stone-700 file:p-4 file:text-stone-100 hover:border-red-700 hover:file:cursor-pointer hover:file:bg-stone-800 hover:file:text-red-700"
+					/>
+					<button
+						type="submit"
+						class="my-3 rounded bg-red-600 px-6 py-2 hover:bg-red-700 disabled:bg-stone-500"
+					>
+						Get Info
+					</button>
+				</form>
+			</div>
+		</main>
+	}
+}

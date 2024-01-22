@@ -1,0 +1,138 @@
+package ui
+
+import "fmt"
+import "net/url"
+import "encoding/base64"
+import "TorPlayer2/torrent"
+import "TorPlayer2/subtitle"
+import "strconv"
+
+func getSubtitleFiles(info torrent.Info) []torrent.File {
+	var files []torrent.File
+	for _, file := range info.Files {
+		if isSubtitleFile(file.DisplayPath) {
+			files = append(files, file)
+		}
+	}
+	return files
+}
+
+templ VideoPlayer(info torrent.Info, fileName string) {
+	@layout(fileName) {
+		<main class="box-border px-4 py-2">
+			<h1 class="my-2 text-2xl">{ fileName }</h1>
+			<video
+				controls
+				autoplay
+				disablepictureinpicture
+				preload="auto"
+				crossorigin="anonymous"
+				class="w-full shadow-sm shadow-stone-900"
+			>
+				<source src={ fmt.Sprintf("/stream/%s/%s", info.InfoHash, url.QueryEscape(fileName)) } type="video/mp4"/>
+				<div id="track"></div>
+			</video>
+			@Subtitle(info, subtitle.State{})
+		</main>
+	}
+}
+
+templ Subtitle(torrentInfo torrent.Info, state subtitle.State) {
+	if len(state.Content) == 0 {
+		<div id="track" hx-swap-oob="outerHTML:#track"></div>
+	} else {
+		<track
+			id="track"
+			hx-swap-oob="outerHTML:#track"
+			kind="subtitles"
+			label={ state.Name }
+			srclang="en"
+			src={ fmt.Sprintf("data:text/vtt;base64,%s", base64.StdEncoding.EncodeToString(state.Content)) }
+			default
+		/>
+	}
+	<section id="subtitleCtrl" class="subtitle-controller mt-4 flex flex-col">
+		<div class="flex items-center justify-between">
+			<h3 class="my-4 text-xl font-bold">
+				<span class="border-b-2 border-red-700 pb-1">Subtitles</span>
+			</h3>
+			<p class="pr-1 text-sm">{ state.Name }</p>
+		</div>
+		<div class="grid grid-cols-2 gap-1">
+			<div
+				class="col-span-1 flex flex-col rounded-sm px-1 py-3 hover:bg-stone-700"
+			>
+				<h4 class="mb-1 text-sm font-thin">Adjustment</h4>
+				<div class="flex items-center">
+					<button
+						class="m-1 rounded bg-stone-900 px-4 py-2 hover:bg-red-700"
+						hx-post={ fmt.Sprintf("/torrents/%s/adjust-subtitle?adjustmentMilliseconds=0", torrentInfo.InfoHash) }
+						hx-target="#subtitleCtrl"
+						hx-swap="outerHTML"
+					>
+						<i icon="fa-solid fa-eraser"></i> Reset
+					</button>
+					<button
+						class="m-1 rounded bg-stone-900 px-4 py-2 hover:bg-red-700"
+						hx-post={ fmt.Sprintf("/torrents/%s/adjust-subtitle?adjustmentMilliseconds=%d", torrentInfo.InfoHash, state.AdjustmentMilliseconds-500) }
+						hx-target="#subtitleCtrl"
+						hx-swap="outerHTML"
+					>
+						<i icon="fa-solid fa-backward"></i> -0.5s
+					</button>
+					<p class="mx-2">{ strconv.FormatInt(state.AdjustmentMilliseconds, 10) }ms</p>
+					<button
+						class="ml-2 rounded bg-stone-900 px-4 py-2 hover:bg-red-700"
+						hx-post={ fmt.Sprintf("/torrents/%s/adjust-subtitle?adjustmentMilliseconds=%d", torrentInfo.InfoHash, state.AdjustmentMilliseconds+500) }
+						hx-target="#subtitleCtrl"
+						hx-swap="outerHTML"
+					>
+						<i icon="fa-solid fa-forward"></i> +0.5s
+					</button>
+				</div>
+			</div>
+			<div
+				class="col-span-1 flex flex-col rounded-sm px-1 py-3 hover:bg-stone-700"
+			>
+				<h4 class="mb-1 text-sm font-thin">Add sub from file</h4>
+				<input
+					type="file"
+					name="fileInput"
+					accept=".vtt, .srt, application/x-subrip, text/vtt"
+					class="rounded border border-gray-400 bg-stone-700 text-stone-100 file:mr-5 file:rounded-l file:border-[0px] file:bg-stone-700 file:p-4 file:text-stone-100 hover:border-red-700 hover:file:cursor-pointer hover:file:bg-stone-800 hover:file:text-red-700"
+					hx-encoding="multipart/form-data"
+					hx-post={ fmt.Sprintf("/torrents/%s/upload-subtitle", torrentInfo.InfoHash) }
+					hx-target="#subtitleCtrl"
+				/>
+			</div>
+		</div>
+		if len(getSubtitleFiles(torrentInfo)) > 0 {
+			<div class="mt-2 rounded-sm">
+				<h4 class="mb-1 px-1 py-1 text-lg">Available subtitles</h4>
+				<div class="flex flex-wrap gap-2">
+					for _, file := range getSubtitleFiles(torrentInfo) {
+						if state.Name == file.DisplayPath {
+							<button
+								class="rounded bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700"
+								hx-delete={ fmt.Sprintf("/torrents/%s/unset-subtitle", torrentInfo.InfoHash) }
+								hx-target="#subtitleCtrl"
+								hx-swap="outerHTML"
+							>
+								{ file.DisplayPath }
+							</button>
+						} else {
+							<button
+								class="rounded bg-stone-900 px-4 py-2 text-slate-100 hover:bg-stone-800"
+								hx-post={ fmt.Sprintf("/torrents/%s/select-subtitle/%s", torrentInfo.InfoHash, url.QueryEscape(file.DisplayPath)) }
+								hx-target="#subtitleCtrl"
+								hx-swap="outerHTML"
+							>
+								{ file.DisplayPath }
+							</button>
+						}
+					}
+				</div>
+			</div>
+		}
+	</section>
+}

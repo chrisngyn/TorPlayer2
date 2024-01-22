@@ -1,0 +1,108 @@
+package ui
+
+import "TorPlayer2/torrent"
+import "strconv"
+import "fmt"
+import "math"
+import "TorPlayer2/setting"
+
+templ Torrents(infos []torrent.Info, total, page, pageSize int) {
+	@layout("Torrent Files") {
+		<main class="box-border px-4 py-2">
+			<h1 class="text-2xl font-bold">Torrent files</h1>
+			<p class="">Total: { strconv.Itoa(total) } files</p>
+			@Setting()
+			<section class="mt-4">
+				for _, info := range infos {
+					@torrentInfo(info)
+				}
+			</section>
+			@pagination(total, page, pageSize, int(math.Ceil(float64(total) / float64(pageSize))))
+		</main>
+	}
+}
+
+templ torrentInfo(info torrent.Info) {
+	<article class="mt-4">
+		<div
+			class="flex items-center justify-between rounded bg-stone-700 px-4 pb-4 pt-4"
+		>
+			<div class="flex-grow">
+				<h2 class="text-xl font-bold">{ info.Name }</h2>
+				<p class="text-sm italic">
+					Info Hash: { info.InfoHash }
+				</p>
+				<p class="text-sm">
+					<span>Size: { byteCounter(info.Length) }</span> <span>Download: { percent(info.BytesCompleted, info.Length) }</span>
+				</p>
+			</div>
+			<div class="px-6">
+				<a href={ templ.URL(fmt.Sprintf("/torrents/%s", info.InfoHash)) }><i class="fa-solid fa-chevron-right"></i></a>
+			</div>
+		</div>
+	</article>
+}
+
+templ pagination(total, page, pageSize, totalPage int) {
+	<nav class="mt-4 flex justify-end">
+		<ul class="inline-flex -space-x-px">
+			<li>
+				<a
+					href={ templ.SafeURL(fmt.Sprint("/torrents?page=", max(1, page-1))) }
+					class="ms-0 flex h-8 items-center justify-center rounded-s-lg border border-e-0 border-gray-400 bg-stone-800 px-3 leading-tight hover:bg-stone-600 "
+				>Previous</a>
+			</li>
+			for i := 1; i <= totalPage; i++ {
+				if i == page {
+					<li>
+						<a
+							href={ templ.URL(fmt.Sprint("/torrents?page=", i)) }
+							aria-current="page"
+							class="flex h-8 items-center justify-center border border-gray-300 px-3 bg-red-600 hover:bg-red-700"
+						>{ strconv.Itoa(i) }</a>
+					</li>
+				} else {
+					<li>
+						<a
+							href={ templ.URL(fmt.Sprint("/torrents?page=", i)) }
+							class="flex h-8 items-center justify-center border border-gray-300 bg-stone-800 px-3 leading-tight hover:bg-stone-600"
+						>{ strconv.Itoa(i) }</a>
+					</li>
+				}
+			}
+			<li>
+				<a
+					href={ templ.SafeURL(fmt.Sprint("/torrents?page=", min(totalPage, page+1))) }
+					class="flex h-8 items-center justify-center rounded-e-lg border border-gray-300 bg-stone-800 px-3 leading-tight hover:bg-stone-600 "
+				>Next</a>
+			</li>
+		</ul>
+	</nav>
+}
+
+templ Setting() {
+	<section id="settingCtrl" class="my-2">
+		<p class="">
+			Have saved at
+			<span class="font-light italic">{ setting.GetSettingFromContext(ctx).DataDir }</span>
+		</p>
+		<form
+			class="flex items-center"
+			hx-ext="debug"
+			hx-post="/settings"
+			hx-target="#settingCtrl"
+			hx-swap="outerHTML"
+			hx-trigger="change"
+		>
+			<input
+				
+				name="deleteAfterClosed"
+				type="checkbox"
+				class="mr-1 h-4 w-4 rounded-sm border-2 border-stone-700 bg-stone-700 p-1 accent-red-600"
+				if setting.GetSettingFromContext(ctx).DeleteAfterClosed {
+					checked
+				}
+			/><label for="deleteAfterClosed">Delete when closed</label>
+		</form>
+	</section>
+}
