@@ -1,5 +1,7 @@
 package ui
 
+import "TorPlayer2/request"
+
 templ layout(title string) {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -10,7 +12,7 @@ templ layout(title string) {
 			<script src="https://kit.fontawesome.com/aff606e071.js" crossorigin="anonymous"></script>
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 			<script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
-      <title>{ title }</title>
+			<title>{ title }</title>
 		</head>
 		<body
 			class="box-border flex min-h-screen w-full flex-col bg-stone-800 text-slate-100"
@@ -29,13 +31,26 @@ templ layout(title string) {
 	</html>
 }
 
+var menuItems = []struct {
+	Link string
+	Name string
+}{
+	{"/", "Home"},
+	{"/torrents", "Torrents"},
+}
+
 templ menu() {
 	<ul class="flex">
-		<li class="mr-6 p-2">
-			<a class="hover:text-red-700" to="/">Home</a>
-		</li>
-		<li class="mr-6 border-b-2 border-red-700 p-2">
-			<a class="hover:text-red-700" href="/torrents">Torrents</a>
-		</li>
+		for _, item := range menuItems {
+			<li 
+        if item.Link == request.GetContext(ctx).URL {
+          class="mr-6 border-b-2 border-red-700 p-2"
+        } else {
+          class="mr-6 p-2"
+        }
+      >
+				<a class="hover:text-red-700" href={ templ.SafeURL(item.Link) }>{ item.Name }</a>
+			</li>
+		}
 	</ul>
 }

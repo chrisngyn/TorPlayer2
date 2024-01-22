@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 
 	"TorPlayer2/handler"
+	"TorPlayer2/request"
 	"TorPlayer2/setting"
 	"TorPlayer2/torrent"
 )
@@ -28,9 +29,12 @@ func main() {
 	defer executeCleanupFunc("torrent manager", m.Close)
 
 	r := chi.NewRouter()
+
 	r.Use(middleware.Logger)
-	r.Use(setting.Middleware(settingStorage))
 	r.Use(middleware.Recoverer)
+	r.Use(setting.Middleware(settingStorage))
+	r.Use(request.Middleware)
+
 	r.Handle("/static/*", http.FileServer(http.FS(fs)))
 
 	httpHandler := handler.New(m, settingStorage)
