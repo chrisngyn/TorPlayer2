@@ -2,41 +2,8 @@ package subtitle
 
 import (
 	"path"
-	"sync"
 	"time"
 )
-
-type StateStorage struct {
-	mu            sync.Mutex
-	subtitleState map[string]State
-}
-
-func NewStateStorage() *StateStorage {
-	return &StateStorage{
-		subtitleState: make(map[string]State),
-	}
-}
-
-func (s *StateStorage) GetSubtitleState(infoHash string) State {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	return s.subtitleState[infoHash]
-}
-
-func (s *StateStorage) SetSubtitleState(infoHash string, state State) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	s.subtitleState[infoHash] = state
-}
-
-func (s *StateStorage) UnsetSubtitleState(infoHash string) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	delete(s.subtitleState, infoHash)
-}
 
 type State struct {
 	Name                   string

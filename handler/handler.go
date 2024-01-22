@@ -7,14 +7,12 @@ import (
 	"golang.org/x/exp/slog"
 
 	"TorPlayer2/setting"
-	"TorPlayer2/subtitle"
 	"TorPlayer2/torrent"
 )
 
 type Handler struct {
-	m                    *torrent.Manager
-	settingStorage       *setting.Storage
-	subtitleStateStorage *subtitle.StateStorage
+	torrentManager *torrent.Manager
+	settingStorage *setting.Storage
 }
 
 func New(m *torrent.Manager, settingStorage *setting.Storage) *Handler {
@@ -23,9 +21,8 @@ func New(m *torrent.Manager, settingStorage *setting.Storage) *Handler {
 	}
 
 	return &Handler{
-		m:                    m,
-		settingStorage:       settingStorage,
-		subtitleStateStorage: subtitle.NewStateStorage(),
+		torrentManager: m,
+		settingStorage: settingStorage,
 	}
 }
 

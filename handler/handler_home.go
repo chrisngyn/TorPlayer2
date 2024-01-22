@@ -41,7 +41,7 @@ func (h *Handler) AddTorrent(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) addTorrentFromTextInput(textInput string) (string, error) {
-	return h.m.AddTorrentFromString(textInput)
+	return h.torrentManager.AddTorrentFromString(textInput)
 }
 
 func (h *Handler) addTorrentFromFile(r *http.Request) (string, error) {
@@ -58,7 +58,7 @@ func (h *Handler) addTorrentFromFile(r *http.Request) (string, error) {
 		}
 	}()
 
-	infoHash, err := h.m.AddTorrentFromFileContent(file)
+	infoHash, err := h.torrentManager.AddTorrentFromFileContent(file)
 	if err != nil {
 		return "", fmt.Errorf("add torrent: %w", err)
 	}

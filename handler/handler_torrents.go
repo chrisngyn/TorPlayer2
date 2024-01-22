@@ -22,7 +22,7 @@ func (h *Handler) ListTorrents(w http.ResponseWriter, r *http.Request) {
 
 	offset := max((page-1)*limit, 0)
 
-	torrentInfos, total := h.m.ListTorrents(offset, limit)
+	torrentInfos, total := h.torrentManager.ListTorrents(offset, limit)
 
 	_ = ui.Torrents(torrentInfos, total, page, limit).Render(r.Context(), w)
 }
@@ -30,7 +30,7 @@ func (h *Handler) ListTorrents(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) TorrentInfo(w http.ResponseWriter, r *http.Request, infoHash string) {
 	slog.With("infoHash", infoHash).InfoCtx(r.Context(), "Getting torrent info")
 
-	tor, err := h.m.GetTorrentInfo(infoHash)
+	tor, err := h.torrentManager.GetTorrentInfo(infoHash)
 	if err != nil {
 		handleError(w, r, "get torrent", err, http.StatusBadRequest)
 	}

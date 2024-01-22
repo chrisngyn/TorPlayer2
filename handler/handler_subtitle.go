@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/base64"
 	"io"
 	"net/http"
 	"net/url"
@@ -20,13 +21,13 @@ func (h *Handler) SelectSubtitle(w http.ResponseWriter, r *http.Request, infoHas
 		return
 	}
 
-	torrentInfo, err := h.m.GetTorrentInfo(infoHash)
+	torrentInfo, err := h.torrentManager.GetTorrentInfo(infoHash)
 	if err != nil {
 		handleError(w, r, "Get torrent", err, http.StatusBadRequest)
 		return
 	}
 
-	file, err := h.m.GetFile(infoHash, fileName)
+	file, err := h.torrentManager.GetFile(infoHash, fileName)
 	if err != nil {
 		handleError(w, r, "Get file", err, http.StatusBadRequest)
 		return
@@ -53,25 +54,21 @@ func (h *Handler) SelectSubtitle(w http.ResponseWriter, r *http.Request, infoHas
 		OriginalContent: originalContent,
 	}
 
-	h.subtitleStateStorage.SetSubtitleState(infoHash, state)
-
-	_ = ui.Subtitle(torrentInfo, h.subtitleStateStorage.GetSubtitleState(infoHash)).Render(r.Context(), w)
+	_ = ui.Subtitle(torrentInfo, state).Render(r.Context(), w)
 }
 
 func (h *Handler) UnsetSubtitle(w http.ResponseWriter, r *http.Request, infoHash string) {
-	torrentInfo, err := h.m.GetTorrentInfo(infoHash)
+	torrentInfo, err := h.torrentManager.GetTorrentInfo(infoHash)
 	if err != nil {
 		handleError(w, r, "Get torrent", err, http.StatusBadRequest)
 		return
 	}
 
-	h.subtitleStateStorage.UnsetSubtitleState(infoHash)
-
-	_ = ui.Subtitle(torrentInfo, h.subtitleStateStorage.GetSubtitleState(infoHash)).Render(r.Context(), w)
+	_ = ui.Subtitle(torrentInfo, subtitle.State{}).Render(r.Context(), w)
 }
 
 func (h *Handler) UploadSubtitle(w http.ResponseWriter, r *http.Request, infoHash string) {
-	torrentInfo, err := h.m.GetTorrentInfo(infoHash)
+	torrentInfo, err := h.torrentManager.GetTorrentInfo(infoHash)
 	if err != nil {
 		handleError(w, r, "Get torrent", err, http.StatusBadRequest)
 		return
@@ -111,13 +108,11 @@ func (h *Handler) UploadSubtitle(w http.ResponseWriter, r *http.Request, infoHas
 		OriginalContent: originalContent,
 	}
 
-	h.subtitleStateStorage.SetSubtitleState(infoHash, state)
-
-	_ = ui.Subtitle(torrentInfo, h.subtitleStateStorage.GetSubtitleState(infoHash)).Render(r.Context(), w)
+	_ = ui.Subtitle(torrentInfo, state).Render(r.Context(), w)
 }
 
 func (h *Handler) AdjustSubtitle(w http.ResponseWriter, r *http.Request, infoHash string) {
-	torrentInfo, err := h.m.GetTorrentInfo(infoHash)
+	torrentInfo, err := h.torrentManager.GetTorrentInfo(infoHash)
 	if err != nil {
 		handleError(w, r, "Get torrent", err, http.StatusBadRequest)
 		return
@@ -129,13 +124,26 @@ func (h *Handler) AdjustSubtitle(w http.ResponseWriter, r *http.Request, infoHas
 		return
 	}
 
-	state := h.subtitleStateStorage.GetSubtitleState(infoHash)
+	if err := r.ParseForm(); err != nil {
+		handleError(w, r, "Parse form", err, http.StatusBadRequest)
+		return
+	}
+
+	name := r.FormValue("name")
+	originalContent, err := base64.StdEncoding.DecodeString(r.FormValue("originalContent"))
+	if err != nil {
+		handleError(w, r, "Decode original content", err, http.StatusBadRequest)
+		return
+	}
+
+	state := subtitle.State{
+		Name:            name,
+		OriginalContent: originalContent,
+	}
 	if err := state.Adjust(adjustmentMilliseconds); err != nil {
 		handleError(w, r, "Adjust subtitle", err, http.StatusBadRequest)
 		return
 	}
 
-	h.subtitleStateStorage.SetSubtitleState(infoHash, state)
-
-	_ = ui.Subtitle(torrentInfo, h.subtitleStateStorage.GetSubtitleState(infoHash)).Render(r.Context(), w)
+	_ = ui.Subtitle(torrentInfo, state).Render(r.Context(), w)
 }

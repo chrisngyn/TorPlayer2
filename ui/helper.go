@@ -1,6 +1,8 @@
 package ui
 
 import (
+	b64 "encoding/base64"
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -38,4 +40,12 @@ func isSubtitleFile(filename string) bool {
 		}
 	}
 	return false
+}
+
+func toBase64(data []byte) string {
+	return b64.StdEncoding.EncodeToString(data)
+}
+
+func toString(v any, errs ...error) (string, error) {
+	return fmt.Sprintf("%v", v), errors.Join(errs...)
 }

@@ -7,7 +7,6 @@ import (
 
 	"github.com/gabriel-vasile/mimetype"
 
-	"TorPlayer2/subtitle"
 	"TorPlayer2/ui"
 )
 
@@ -17,19 +16,17 @@ func (h *Handler) Watch(w http.ResponseWriter, r *http.Request, infoHash, fileNa
 		handleError(w, r, "Unescape file name", err, http.StatusBadRequest)
 		return
 	}
-	torrentInfo, err := h.m.GetTorrentInfo(infoHash)
+	torrentInfo, err := h.torrentManager.GetTorrentInfo(infoHash)
 	if err != nil {
 		handleError(w, r, "Get torrent", err, http.StatusBadRequest)
 		return
 	}
 
-	// reset subtitle state
-	h.subtitleStateStorage.SetSubtitleState(infoHash, subtitle.State{})
 	_ = ui.VideoPlayer(torrentInfo, fileName).Render(r.Context(), w)
 }
 
 func (h *Handler) Stream(w http.ResponseWriter, r *http.Request, infoHash, fileName string) {
-	file, err := h.m.GetFile(infoHash, fileName)
+	file, err := h.torrentManager.GetFile(infoHash, fileName)
 	if err != nil {
 		handleError(w, r, "get file", err, http.StatusBadRequest)
 		return
