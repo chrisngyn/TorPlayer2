@@ -2,7 +2,6 @@ package ui
 
 import "fmt"
 import "net/url"
-import "encoding/base64"
 import "TorPlayer2/torrent"
 import "TorPlayer2/subtitle"
 
@@ -31,25 +30,17 @@ templ VideoPlayer(info torrent.Info, fileName string) {
 				<source src={ fmt.Sprintf("/stream/%s/%s", info.InfoHash, url.QueryEscape(fileName)) } type="video/mp4"/>
 				<div id="track"></div>
 			</video>
-			@Subtitle(info, subtitle.State{})
+			@subtitleController(info, subtitle.State{})
 		</main>
 	}
 }
 
 templ Subtitle(torrentInfo torrent.Info, state subtitle.State) {
-	if len(state.Content) == 0 {
-		<div id="track" hx-swap-oob="outerHTML:#track"></div>
-	} else {
-		<track
-			id="track"
-			hx-swap-oob="outerHTML:#track"
-			kind="subtitles"
-			label={ state.Name }
-			srclang="en"
-			src={ fmt.Sprintf("data:text/vtt;base64,%s", base64.StdEncoding.EncodeToString(state.Content)) }
-			default
-		/>
-	}
+	@track(state)
+	@subtitleController(torrentInfo, state)
+}
+
+templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 	<section id="subtitleCtrl" class="subtitle-controller mt-4 flex flex-col">
 		<div class="flex items-center justify-between">
 			<h3 class="my-4 text-xl font-bold">
@@ -139,4 +130,20 @@ templ Subtitle(torrentInfo torrent.Info, state subtitle.State) {
 			</div>
 		}
 	</section>
+}
+
+templ track(state subtitle.State) {
+	if len(state.Content) == 0 {
+		<div id="track" hx-swap-oob="outerHTML:#track"></div>
+	} else {
+		<track
+			id="track"
+			hx-swap-oob="outerHTML:#track"
+			kind="subtitles"
+			label={ state.Name }
+			srclang="en"
+			src={ fmt.Sprintf("data:text/vtt;base64,%s", toBase64(state.Content)) }
+			default
+		/>
+	}
 }
