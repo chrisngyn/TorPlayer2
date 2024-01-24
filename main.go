@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"errors"
+	"fmt"
 	"log"
 	"log/slog"
 	"net/http"
@@ -16,6 +17,10 @@ import (
 	"TorPlayer2/request"
 	"TorPlayer2/setting"
 	"TorPlayer2/torrent"
+)
+
+const (
+	openPort = 19576
 )
 
 //go:embed static
@@ -53,12 +58,12 @@ func main() {
 	httpHandler.Register(r)
 
 	httpServer := &http.Server{
-		Addr:    ":8080",
+		Addr:    fmt.Sprintf(":%d", openPort),
 		Handler: r,
 	}
 	closeFns = append(closeFns, closeFn{"http server", httpServer.Close})
 	go func() {
-		slog.Info("Starting server on port 8080\n")
+		slog.With("port", openPort).Info("Starting server")
 		if err := httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("Failed to start server: %v", err)
 		}
@@ -72,15 +77,14 @@ func main() {
 		}
 	}
 
-	systray.Run(setupOnReady("http://localhost:8080"), onExit)
-
+	systray.Run(setupOnReady(fmt.Sprintf("http://localhost:%d", openPort)), onExit)
 }
 
 func setupOnReady(serverAddr string) func() {
 	return func() {
 		systray.SetIcon(appIcon)
-		systray.SetTitle("TorPlayer2")
-		systray.SetTooltip("TorPlayer2")
+		systray.SetTitle("TorPlayer")
+		systray.SetTooltip("TorPlayer")
 		mOpenBrowser := systray.AddMenuItem("Open Torplay web", "Open Torplay in browser")
 		systray.AddSeparator()
 		mQuit := systray.AddMenuItem("Quit", "Quit the whole app")
