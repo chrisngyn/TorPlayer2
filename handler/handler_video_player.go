@@ -22,6 +22,12 @@ func (h *Handler) Watch(w http.ResponseWriter, r *http.Request, infoHash, fileNa
 		return
 	}
 
+	// This step is for speed up the download!
+	if err := h.torrentManager.CancelOthers(infoHash); err != nil {
+		handleError(w, r, "Cancel others", err, http.StatusBadRequest)
+		return
+	}
+
 	_ = ui.VideoPlayer(torrentInfo, fileName).Render(r.Context(), w)
 }
 
@@ -33,9 +39,10 @@ func (h *Handler) Stream(w http.ResponseWriter, r *http.Request, infoHash, fileN
 	}
 
 	// TODO: Maybe implement more effective file reader to seed up the download
+	file.Download()
 	reader := file.NewReader()
 	reader.SetResponsive()
-	reader.SetReadahead(file.Length() / 100) // Read ahead 1% of the file
+	//reader.SetReadahead(file.Length() / 100) // Read ahead 1% of the file
 
 	mime, err := mimetype.DetectReader(reader)
 	if err != nil {
