@@ -7,6 +7,7 @@ import (
 	"log"
 	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/getlantern/systray"
 	"github.com/go-chi/chi/v5"
@@ -38,7 +39,9 @@ func main() {
 	var closeFns []closeFn
 
 	settingStorage := setting.NewStorage()
-	closeFns = append(closeFns, closeFn{"setting storage", settingStorage.CleanUp})
+	closeFns = append(closeFns, closeFn{"storage", func() error {
+		return cleanUpStorage(settingStorage.GetSetting())
+	}})
 
 	settings := settingStorage.GetSetting()
 
@@ -106,4 +109,13 @@ func setupOnReady(serverAddr string) func() {
 
 		_ = browser.OpenURL(serverAddr)
 	}
+}
+
+func cleanUpStorage(setting setting.Settings) error {
+	if setting.DeleteAfterClosed {
+		if err := os.RemoveAll(setting.DataDir); err != nil {
+			return fmt.Errorf("remove data directory: %w", err)
+		}
+	}
+	return nil
 }
