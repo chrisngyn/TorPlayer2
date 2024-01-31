@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/gen2brain/beeep"
 	"github.com/go-chi/chi/v5"
 	"golang.org/x/exp/slog"
 
@@ -78,5 +79,10 @@ func (h *Handler) Register(r chi.Router) {
 
 func handleError(w http.ResponseWriter, r *http.Request, msg string, err error, status int) {
 	slog.With("error", err).ErrorCtx(r.Context(), msg)
+	alertError(msg, err)
 	http.Error(w, msg+": "+err.Error(), status)
+}
+
+func alertError(msg string, err error) {
+	_ = beeep.Alert("Error", msg+": "+err.Error(), "")
 }
