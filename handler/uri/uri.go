@@ -1,4 +1,4 @@
-// package uri provides URI generation helpers for the web interface.
+// Package uri provides URI generation helpers for the web interface.
 package uri
 
 import (
@@ -16,4 +16,8 @@ func OpenInVLCURI(infoHash, fileName string) string {
 
 func WatchURI(infoHash, fileName string) string {
 	return fmt.Sprintf("/torrents/%s/watch/%s", infoHash, url.QueryEscape(fileName))
+}
+
+func InfoURI(infoHash string) string {
+	return fmt.Sprintf("/torrents/%s", infoHash)
 }

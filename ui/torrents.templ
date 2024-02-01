@@ -5,6 +5,7 @@ import "strconv"
 import "fmt"
 import "math"
 import "TorPlayer2/setting"
+import "TorPlayer2/handler/uri"
 
 templ Torrents(infos []torrent.Info, total, page, pageSize int) {
 	@layout("Torrent Files") {
@@ -24,22 +25,34 @@ templ Torrents(infos []torrent.Info, total, page, pageSize int) {
 
 templ torrentInfo(info torrent.Info) {
 	<article class="mt-4">
-		<div
-			class="flex items-center justify-between rounded bg-stone-700 px-4 pb-4 pt-4"
-		>
-			<div class="flex-grow">
-				<h2 class="text-xl font-bold">{ info.Name }</h2>
-				<p class="text-sm italic">
-					Info Hash: { info.InfoHash }
-				</p>
-				<p class="text-sm">
-					<span>Size: { byteCounter(info.Length) }</span> <span>Download: { percent(info.BytesCompleted, info.Length) }</span>
-				</p>
+		<a href={ templ.URL(uri.InfoURI(info.InfoHash)) }>
+			<div
+				class="flex items-center justify-between rounded bg-stone-700 px-4 pb-4 pt-4 hover:bg-stone-600 cursor-pointer"
+			>
+				<div class="flex-grow">
+					<h2 class="text-xl font-bold">{ info.Name }</h2>
+					<p class="text-sm italic">
+						Info Hash: { info.InfoHash }
+					</p>
+					<div class="flex space-x-2 text-sm">
+						<p>Total Peers: { toString(info.Stats.TotalPeers) }</p>
+						<p>Active Peers: { toString(info.Stats.ActivePeers) }</p>
+						<p>Pending Peers: { toString(info.Stats.PendingPeers) }</p>
+						<p>Connected Seeders: { toString(info.Stats.ConnectedSeeders) }</p>
+						<p>Haft Open Peers: { toString(info.Stats.HalfOpenPeers) }</p>
+					</div>
+					<p class="text-sm">
+						<span>Size: { byteCounter(info.Length) }</span>
+					</p>
+					<div class="mt-2">
+						@progressBar(info.BytesCompleted, info.Length)
+					</div>
+				</div>
+				<div class="px-6">
+					<i class="fa-solid fa-chevron-right"></i>
+				</div>
 			</div>
-			<div class="px-6">
-				<a href={ templ.URL(fmt.Sprintf("/torrents/%s", info.InfoHash)) }><i class="fa-solid fa-chevron-right"></i></a>
-			</div>
-		</div>
+		</a>
 	</article>
 }
 
@@ -95,7 +108,6 @@ templ Setting() {
 			hx-trigger="change"
 		>
 			<input
-				
 				name="deleteAfterClosed"
 				type="checkbox"
 				class="mr-1 h-4 w-4 rounded-sm border-2 border-stone-700 bg-stone-700 p-1 accent-red-600"
@@ -105,4 +117,14 @@ templ Setting() {
 			/><label for="deleteAfterClosed">Delete when closed</label>
 		</form>
 	</section>
+}
+
+templ progressBar(value, total int64) {
+	<p class="text-sm">Downloaded: { percent(value, total) }</p>
+	<div class="w-full bg-gray-700 rounded-full h-1.5 mb-4 ">
+		<div
+			class="bg-red-700 h-1.5 rounded-full"
+			{ templ.Attributes{"style": fmt.Sprintf("width: %s", percent(value, total))}... }
+		></div>
+	</div>
 }
