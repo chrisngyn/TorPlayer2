@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/getlantern/systray"
+	"fyne.io/systray"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/pkg/browser"
@@ -88,7 +88,7 @@ func setupOnReady(serverAddr string) func() {
 		systray.SetIcon(appIcon)
 		systray.SetTitle("TorPlayer")
 		systray.SetTooltip("TorPlayer")
-		mOpenBrowser := systray.AddMenuItem("Open Torplay web", "Open Torplay in browser")
+		mOpenBrowser := systray.AddMenuItem("Open TorPlayer web", "Open TorPlayer in browser")
 		systray.AddSeparator()
 		mQuit := systray.AddMenuItem("Quit", "Quit the whole app")
 
@@ -96,10 +96,7 @@ func setupOnReady(serverAddr string) func() {
 			for {
 				select {
 				case <-mOpenBrowser.ClickedCh:
-					err := browser.OpenURL(serverAddr)
-					if err != nil {
-						slog.With("error", err).Error("Failed to open browser")
-					}
+					openURL(serverAddr)
 				case <-mQuit.ClickedCh:
 					systray.Quit()
 					return
@@ -107,7 +104,14 @@ func setupOnReady(serverAddr string) func() {
 			}
 		}()
 
-		_ = browser.OpenURL(serverAddr)
+		openURL(serverAddr)
+	}
+}
+
+func openURL(url string) {
+	err := browser.OpenURL(url)
+	if err != nil {
+		slog.With("error", err).Error("Failed to open browser")
 	}
 }
 
