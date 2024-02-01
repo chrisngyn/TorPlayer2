@@ -9,7 +9,13 @@ import "TorPlayer2/handler/uri"
 
 templ Torrents(infos []torrent.Info, total, page, pageSize int) {
 	@layout("Torrent Files") {
-		<main class="box-border px-4 py-2">
+		<main
+			class="box-border px-4 py-2"
+			hx-get="/torrents"
+			hx-target="body"
+			hx-swap="outerHTML"
+			hx-trigger="every 1s"
+		>
 			<h1 class="text-2xl font-bold">Torrent files</h1>
 			<p class="">Total: { strconv.Itoa(total) } files</p>
 			@Setting()

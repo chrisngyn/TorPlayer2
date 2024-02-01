@@ -5,7 +5,13 @@ import "TorPlayer2/handler/uri"
 
 templ Info(infoHash string, info torrent.Info) {
 	@layout(info.Name) {
-		<main class="box-border px-4 py-2">
+		<main
+			class="box-border px-4 py-2"
+			hx-get={ uri.InfoURI(infoHash) }
+			hx-trigger="every 1s"
+			hx-swap="outerHTML"
+			hx-target="body"
+		>
 			<p class="text-sm italic">Info Hash: { infoHash }</p>
 			<h1 class="text-2xl font-bold">{ info.Name }</h1>
 			<p class="text-sm">
