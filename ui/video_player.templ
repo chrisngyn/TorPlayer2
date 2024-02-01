@@ -4,6 +4,7 @@ import "fmt"
 import "net/url"
 import "TorPlayer2/torrent"
 import "TorPlayer2/subtitle"
+import "TorPlayer2/handler/uri"
 
 func getSubtitleFiles(info torrent.Info) []torrent.File {
 	var files []torrent.File
@@ -27,7 +28,7 @@ templ VideoPlayer(info torrent.Info, fileName string) {
 				crossorigin="anonymous"
 				class="w-full shadow-sm shadow-stone-900"
 			>
-				<source src={ fmt.Sprintf("/stream/%s/%s", info.InfoHash, url.QueryEscape(fileName)) } type="video/mp4"/>
+				<source src={ uri.StreamURI(info.InfoHash, fileName) } type="video/mp4"/>
 				<div id="track"></div>
 			</video>
 			@subtitleController(info, subtitle.State{})
