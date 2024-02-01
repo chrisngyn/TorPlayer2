@@ -11,9 +11,7 @@ import "io"
 import "bytes"
 
 import "TorPlayer2/torrent"
-import "strings"
-import "fmt"
-import "html"
+import "TorPlayer2/handler/uri"
 
 func Info(infoHash string, info torrent.Info) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -46,7 +44,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(infoHash)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 10, Col: 50}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 8, Col: 50}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -59,7 +57,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(info.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 11, Col: 45}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 9, Col: 45}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -77,7 +75,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(byteCounter(info.Length))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 12, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 10, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -131,7 +129,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 				var templ_7745c5c3_Var12 string
 				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(file.DisplayPath)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 27, Col: 47}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 25, Col: 47}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
@@ -144,7 +142,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 				var templ_7745c5c3_Var13 string
 				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(byteCounter(file.Length))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 28, Col: 66}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 26, Col: 66}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
@@ -157,7 +155,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 				var templ_7745c5c3_Var14 string
 				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(percent(file.BytesCompleted, file.Length))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 29, Col: 83}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 27, Col: 83}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 				if templ_7745c5c3_Err != nil {
@@ -167,22 +165,40 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				if strings.HasSuffix(file.DisplayPath, ".mp4") {
+				if isVideoFile(file.DisplayPath) {
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a type=\"button\" href=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					var templ_7745c5c3_Var15 templ.SafeURL = templ.SafeURL(fmt.Sprintf("/torrents/%s/watch/%s", infoHash, html.EscapeString(file.DisplayPath)))
+					var templ_7745c5c3_Var15 templ.SafeURL = templ.SafeURL(uri.WatchURI(infoHash, file.DisplayPath))
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var15)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900\"><font-awesome-icon icon=\"fa-play\"></font-awesome-icon> ")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900\"><i class=\"fa-solid fa-play\"></i> ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					templ_7745c5c3_Var16 := `Watch`
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var16)
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a type=\"button\" href=\"")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					var templ_7745c5c3_Var17 templ.SafeURL = templ.SafeURL(uri.OpenInVLCURI(infoHash, file.DisplayPath))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var17)))
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900\" target=\"_blank\"><i class=\"fa-solid fa-film\"></i> ")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Var18 := `Open in VLC`
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var18)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

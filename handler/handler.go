@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"net/url"
 
 	"github.com/gen2brain/beeep"
 	"github.com/go-chi/chi/v5"
@@ -42,14 +43,22 @@ func (h *Handler) Register(r chi.Router) {
 	// watch torrent
 	r.Get("/torrents/{infoHash}/watch/{fileName}", func(w http.ResponseWriter, r *http.Request) {
 		infoHash := chi.URLParam(r, "infoHash")
-		fileName := chi.URLParam(r, "fileName")
+		fileName, err := url.QueryUnescape(chi.URLParam(r, "fileName"))
+		if err != nil {
+			handleError(w, r, "Unescape file name", err, http.StatusBadRequest)
+			return
+		}
 		h.Watch(w, r, infoHash, fileName)
 	})
 
 	// subtitle
 	r.Post("/torrents/{infoHash}/select-subtitle/{fileName}", func(w http.ResponseWriter, r *http.Request) {
 		infoHash := chi.URLParam(r, "infoHash")
-		fileName := chi.URLParam(r, "fileName")
+		fileName, err := url.QueryUnescape(chi.URLParam(r, "fileName"))
+		if err != nil {
+			handleError(w, r, "Unescape file name", err, http.StatusBadRequest)
+			return
+		}
 		h.SelectSubtitle(w, r, infoHash, fileName)
 	})
 	r.Delete("/torrents/{infoHash}/unset-subtitle", func(w http.ResponseWriter, r *http.Request) {
@@ -68,8 +77,23 @@ func (h *Handler) Register(r chi.Router) {
 	// stream torrent
 	r.Get("/stream/{infoHash}/{fileName}", func(w http.ResponseWriter, r *http.Request) {
 		infoHash := chi.URLParam(r, "infoHash")
-		fileName := chi.URLParam(r, "fileName")
+		fileName, err := url.QueryUnescape(chi.URLParam(r, "fileName"))
+		if err != nil {
+			handleError(w, r, "Unescape file name", err, http.StatusBadRequest)
+			return
+		}
 		h.Stream(w, r, infoHash, fileName)
+	})
+
+	// open in vlc
+	r.Get("/open-in-vlc/{infoHash}/{fileName}", func(w http.ResponseWriter, r *http.Request) {
+		infoHash := chi.URLParam(r, "infoHash")
+		fileName, err := url.QueryUnescape(chi.URLParam(r, "fileName"))
+		if err != nil {
+			handleError(w, r, "Unescape file name", err, http.StatusBadRequest)
+			return
+		}
+		h.OpenInVLC(w, r, infoHash, fileName)
 	})
 
 	// setting

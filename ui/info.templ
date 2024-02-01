@@ -1,9 +1,7 @@
 package ui
 
 import "TorPlayer2/torrent"
-import "strings"
-import "fmt"
-import "html"
+import "TorPlayer2/handler/uri"
 
 templ Info(infoHash string, info torrent.Info) {
 	@layout(info.Name) {
@@ -29,14 +27,23 @@ templ Info(infoHash string, info torrent.Info) {
 							<td class="px-4 py-2 text-right">{ byteCounter(file.Length) }</td>
 							<td class="px-4 py-2 text-right">{ percent(file.BytesCompleted, file.Length) }</td>
 							<td class="px-4 py-2 text-center">
-								if strings.HasSuffix(file.DisplayPath, ".mp4") {
+								if isVideoFile(file.DisplayPath) {
 									<a
 										type="button"
-										href={ templ.SafeURL(fmt.Sprintf("/torrents/%s/watch/%s", infoHash, html.EscapeString(file.DisplayPath))) }
+										href={ templ.SafeURL(uri.WatchURI(infoHash, file.DisplayPath)) }
 										class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
-										<font-awesome-icon icon="fa-play"></font-awesome-icon>
+										<i class="fa-solid fa-play"></i>
 										Watch
+									</a>
+									<a
+										type="button"
+										href={ templ.SafeURL(uri.OpenInVLCURI(infoHash, file.DisplayPath)) }
+										class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
+										target="_blank"
+									>
+										<i class="fa-solid fa-film"></i>
+										Open in VLC
 									</a>
 								}
 							</td>

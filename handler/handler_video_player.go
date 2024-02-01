@@ -2,20 +2,16 @@ package handler
 
 import (
 	"net/http"
-	"net/url"
 	"time"
 
 	"github.com/gabriel-vasile/mimetype"
 
+	"TorPlayer2/handler/uri"
 	"TorPlayer2/ui"
+	"TorPlayer2/vlc"
 )
 
 func (h *Handler) Watch(w http.ResponseWriter, r *http.Request, infoHash, fileName string) {
-	fileName, err := url.QueryUnescape(fileName)
-	if err != nil {
-		handleError(w, r, "Unescape file name", err, http.StatusBadRequest)
-		return
-	}
 	torrentInfo, err := h.torrentManager.GetTorrentInfo(infoHash)
 	if err != nil {
 		handleError(w, r, "Get torrent", err, http.StatusBadRequest)
@@ -53,4 +49,20 @@ func (h *Handler) Stream(w http.ResponseWriter, r *http.Request, infoHash, fileN
 	}
 
 	http.ServeContent(w, r, file.DisplayPath(), time.Time{}, reader)
+}
+
+func (h *Handler) OpenInVLC(w http.ResponseWriter, r *http.Request, infoHash, fileName string) {
+	protocol := "http"
+	if r.TLS != nil {
+		protocol = "https"
+	}
+
+	streamURL := protocol + "://" + r.Host + uri.StreamURI(infoHash, fileName)
+
+	if err := vlc.OpenURL(streamURL); err != nil {
+		handleError(w, r, "Open in VLC", err, http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }

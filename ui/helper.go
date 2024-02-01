@@ -26,7 +26,7 @@ func percent(value, total int64) string {
 }
 
 func isVideoFile(filename string) bool {
-	return strings.HasSuffix(filename, ".mp4")
+	return strings.HasSuffix(filename, ".mp4") || strings.HasSuffix(filename, ".mkv")
 }
 
 var (
