@@ -1,0 +1,54 @@
+Test:
+  HelloWorld: "Hello World!"
+
+Slogan: "Video streaming from the torrent network"
+
+Nav:
+  Home: "Home"
+  Torrents: "Torrent Files"
+
+Home:
+  TextInput:
+    Placeholder: "Enter magnet, hash or torrent file link"
+  Or: "Or Upload Torrent File"
+  GetInfoButton:
+    Text: "Get Info"
+
+Setting:
+  HaveSavedAt: "Have saved at: "
+  DeleteWhenClose: "Delete when close"
+
+Info:
+  Size: "Size"
+  Statistics: "Statistics"
+  Name: "Name"
+  Length: "Length"
+  Completed: "Completed"
+  Action: "Action"
+  Button:
+    Watch: "Watch"
+    OpenInVLC: "Open in VLC"
+  Downloaded: "Downloaded"
+
+Torrents:
+  Title: "Torrent Files"
+  Total:
+    one: "Total: {{.PluralCount}} file"
+    other: "Total: {{.PluralCount}} files"
+
+Pagination:
+  Previous: "Previous"
+  Next: "Next"
+
+Subtitle:
+  Title: "Subtitle"
+  Adjustment:
+    Title: "Adjustment"
+    Reset: "Reset"
+  AddFromFile: "Add subtitle from file"
+  AvailableSubtitles: "Available subtitles"
+
+
+
+
+

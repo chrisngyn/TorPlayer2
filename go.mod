@@ -10,6 +10,7 @@ require (
 	github.com/asticode/go-astisub v0.26.2
 	github.com/gabriel-vasile/mimetype v1.4.3
 	github.com/gen2brain/beeep v0.0.0-20240112042604-c7bb2cd88fea
+	github.com/nicksnyder/go-i18n/v2 v2.4.0
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
 	gopkg.in/yaml.v3 v3.0.1
 )

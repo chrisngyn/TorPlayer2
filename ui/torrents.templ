@@ -6,6 +6,7 @@ import "fmt"
 import "math"
 import "TorPlayer2/setting"
 import "TorPlayer2/handler/uri"
+import "TorPlayer2/i18n"
 
 templ Torrents(infos []torrent.Info, total, page, pageSize int) {
 	@layout("Torrent Files") {
@@ -16,8 +17,8 @@ templ Torrents(infos []torrent.Info, total, page, pageSize int) {
 			hx-swap="outerHTML"
 			hx-trigger="every 1s"
 		>
-			<h1 class="text-2xl font-bold">Torrent files</h1>
-			<p class="">Total: { strconv.Itoa(total) } files</p>
+			<h1 class="text-2xl font-bold">{ i18n.T(ctx, "Torrents.Title") }</h1>
+			<p class="">{ i18n.TWithData(ctx, "Torrents.Total", nil, total) }</p>
 			@Setting()
 			<section class="mt-4">
 				for _, info := range infos {
@@ -48,7 +49,7 @@ templ torrentInfo(info torrent.Info) {
 						<p>Haft Open Peers: { toString(info.Stats.HalfOpenPeers) }</p>
 					</div>
 					<p class="text-sm">
-						<span>Size: { byteCounter(info.Length) }</span>
+						<span>{ i18n.T(ctx, "Info.Size") }: { byteCounter(info.Length) }</span>
 					</p>
 					<div class="mt-2">
 						@progressBar(info.BytesCompleted, info.Length)
@@ -69,7 +70,7 @@ templ pagination(total, page, pageSize, totalPage int) {
 				<a
 					href={ templ.SafeURL(fmt.Sprint("/torrents?page=", max(1, page-1))) }
 					class="ms-0 flex h-8 items-center justify-center rounded-s-lg border border-e-0 border-gray-400 bg-stone-800 px-3 leading-tight hover:bg-stone-600 "
-				>Previous</a>
+				>{ i18n.T(ctx, "Pagination.Previous") }</a>
 			</li>
 			for i := 1; i <= totalPage; i++ {
 				if i == page {
@@ -93,7 +94,7 @@ templ pagination(total, page, pageSize, totalPage int) {
 				<a
 					href={ templ.SafeURL(fmt.Sprint("/torrents?page=", min(totalPage, page+1))) }
 					class="flex h-8 items-center justify-center rounded-e-lg border border-gray-300 bg-stone-800 px-3 leading-tight hover:bg-stone-600 "
-				>Next</a>
+				>{ i18n.T(ctx, "Pagination.Next") }</a>
 			</li>
 		</ul>
 	</nav>
@@ -102,7 +103,7 @@ templ pagination(total, page, pageSize, totalPage int) {
 templ Setting() {
 	<section id="settingCtrl" class="my-2">
 		<p class="">
-			Have saved at
+			{ i18n.T(ctx, "Setting.HaveSavedAt") }
 			<span class="font-light italic">{ setting.GetSettingFromContext(ctx).DataDir }</span>
 		</p>
 		<form
@@ -120,13 +121,13 @@ templ Setting() {
 				if setting.GetSettingFromContext(ctx).DeleteAfterClosed {
 					checked
 				}
-			/><label for="deleteAfterClosed">Delete when closed</label>
+			/><label for="deleteAfterClosed">{ i18n.T(ctx, "Setting.DeleteWhenClose") }</label>
 		</form>
 	</section>
 }
 
 templ progressBar(value, total int64) {
-	<p class="text-sm">Downloaded: { percent(value, total) }</p>
+	<p class="text-sm">{ i18n.T(ctx, "Info.Downloaded") }: { percent(value, total) }</p>
 	<div class="w-full bg-gray-700 rounded-full h-1.5 mb-4 ">
 		<div
 			class="bg-red-700 h-1.5 rounded-full"

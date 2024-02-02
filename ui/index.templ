@@ -1,5 +1,7 @@
 package ui
 
+import "TorPlayer2/i18n"
+
 templ Index() {
 	@layout("TorPlayer") {
 		<main
@@ -8,7 +10,7 @@ templ Index() {
 			<div class="flex flex-col items-center justify-center">
 				<h1 class="text-center text-6xl font-bold text-red-700">TorPlayer</h1>
 				<p class="text-center text-2xl">
-					Video streaming from the torrent network
+					{ i18n.T(ctx, "Slogan") }
 				</p>
 			</div>
 			<div class="flex flex-col items-center justify-center" hx-boost="true">
@@ -22,10 +24,10 @@ templ Index() {
 						type="text"
 						name="textInput"
 						autocomplete="off"
-						placeholder="Enter magnet, hash or torrent file link"
+						placeholder={ i18n.MustT(ctx, "Home.TextInput.Placeholder") }
 						class="w-full rounded border border-gray-400 bg-stone-700 p-4 text-stone-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none"
 					/>
-					<label for="fileInput" class="my-2 block text-sm">Or Upload Torrent File</label>
+					<label for="fileInput" class="my-2 block text-sm">{ i18n.T(ctx, "Home.Or") }</label>
 					<input
 						type="file"
 						name="fileInput"
@@ -36,7 +38,7 @@ templ Index() {
 						type="submit"
 						class="inline-flex justify-center items-center space-x-1 my-3 rounded bg-red-600 px-6 py-2 hover:bg-red-700 disabled:bg-stone-500 inline"
 					>
-						<span>Get Info</span>
+						<span>{ i18n.T(ctx, "Home.GetInfoButton.Text")}</span>
 						<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
 					</button>
 				</form>

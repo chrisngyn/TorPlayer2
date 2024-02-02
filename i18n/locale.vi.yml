@@ -1,0 +1,54 @@
+Test:
+  HelloWorld: "Xin chào thế giới!"
+Slogan: "Phát video từ mạng torrent"
+
+Nav:
+  Home: "Trang chủ"
+  Torrents: "Tập tin torrent"
+
+Home:
+  TextInput:
+    Placeholder: "Nhập magnet, hash hoặc torrent file link"
+  Or: "Hoặc tải lên tập tin torrent"
+  GetInfoButton:
+    Text: "Lấy thông tin"
+
+Setting:
+  HaveSavedAt: "Được lưu tại: "
+  DeleteWhenClose: "Xóa khi đóng"
+
+Info:
+  Size: "Kích thước"
+  Statistics: "Thống kê"
+  Name: "Tên"
+  Length: "Độ dài"
+  Completed: "Hoàn thành"
+  Action: "Hành động"
+  Button:
+    Watch: "Xem"
+    OpenInVLC: "Mở trong VLC"
+  Downloaded: "Đã tải về"
+
+Torrents:
+  Title: "Danh sách tập tin torrent"
+  Total:
+    one: "Tổng số: {{.PluralCount}} file"
+    other: "Tổng số: {{.PluralCount}} files"
+
+Pagination:
+  Previous: "Trước"
+  Next: "Sau"
+
+Subtitle:
+  Title: "Phụ đề"
+  Adjustment:
+    Title: "Điều chỉnh"
+    Reset: "Đặt lại"
+  AddFromFile: "Thêm phụ đề từ tập tin"
+  AvailableSubtitles: "Phụ đề có sẵn"
+
+
+
+
+
+

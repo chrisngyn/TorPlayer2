@@ -2,6 +2,7 @@ package ui
 
 import "TorPlayer2/torrent"
 import "TorPlayer2/handler/uri"
+import "TorPlayer2/i18n"
 
 templ Info(infoHash string, info torrent.Info) {
 	@layout(info.Name) {
@@ -16,10 +17,10 @@ templ Info(infoHash string, info torrent.Info) {
 			<p class="text-sm italic">Info Hash: { infoHash }</p>
 			<h1 class="text-2xl font-bold">{ info.Name }</h1>
 			<p class="text-sm">
-				<span>Size: { byteCounter(info.Length) }</span>
+				<span>{ i18n.T(ctx, "Info.Size") }: { byteCounter(info.Length) }</span>
 			</p>
 			<div class="mt-4">
-				<h3 class="text-bold">Statistics</h3>
+				<h3 class="text-bold">{ i18n.T(ctx, "Info.Statistics") }</h3>
 				<div class="grid grid-cols-3 gap-x-4 gap-y-2 text-sm">
 					<p>Total Peers: { toString(info.Stats.TotalPeers) }</p>
 					<p>Active Peers: { toString(info.Stats.ActivePeers) }</p>
@@ -36,10 +37,10 @@ templ Info(infoHash string, info torrent.Info) {
 			>
 				<thead>
 					<tr class="border-b-2 border-gray-400 bg-stone-800">
-						<th class="px-4 py-2">Name</th>
-						<th class="px-4 py-2">Length</th>
-						<th class="px-4 py-2">Completed</th>
-						<th class="px-4 py-2">Action</th>
+						<th class="px-4 py-2">{ i18n.T(ctx, "Info.Name") }</th>
+						<th class="px-4 py-2">{ i18n.T(ctx, "Info.Length") }</th>
+						<th class="px-4 py-2">{ i18n.T(ctx, "Info.Completed") }</th>
+						<th class="px-4 py-2">{ i18n.T(ctx, "Info.Action") }</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,7 +57,7 @@ templ Info(infoHash string, info torrent.Info) {
 										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-play"></i>
-										<span>Watch</span>
+										<span>{ i18n.T(ctx, "Info.Button.Watch") }</span>
 									</a>
 									<button
 										type="button"
@@ -67,7 +68,7 @@ templ Info(infoHash string, info torrent.Info) {
 										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-film"></i>
-										<span>Open in VLC</span>
+										<span>{ i18n.T(ctx, "Info.Button.OpenInVLC") }</span>
 										<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
 									</button>
 								}

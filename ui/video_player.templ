@@ -4,6 +4,7 @@ import "fmt"
 import "TorPlayer2/torrent"
 import "TorPlayer2/subtitle"
 import "TorPlayer2/handler/uri"
+import "TorPlayer2/i18n"
 
 func getSubtitleFiles(info torrent.Info) []torrent.File {
 	var files []torrent.File
@@ -44,7 +45,7 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 	<section id="subtitleCtrl" class="subtitle-controller mt-4 flex flex-col">
 		<div class="flex items-center justify-between">
 			<h3 class="my-4 text-xl font-bold">
-				<span class="border-b-2 border-red-700 pb-1">Subtitles</span>
+				<span class="border-b-2 border-red-700 pb-1">{ i18n.T(ctx, "Subtitle.Title") }</span>
 			</h3>
 			<p class="pr-1 text-sm">{ state.Name }</p>
 		</div>
@@ -52,7 +53,7 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 			<div
 				class="col-span-1 flex flex-col rounded-sm px-1 py-3 hover:bg-stone-700"
 			>
-				<h4 class="mb-1 text-sm font-thin">Adjustment</h4>
+				<h4 class="mb-1 text-sm font-thin">{ i18n.T(ctx, "Subtitle.Adjustment.Title") }</h4>
 				<div
 					class="flex items-center"
 					hx-include="[name='name'], [name='originalContent']"
@@ -65,7 +66,7 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 						hx-target="#subtitleCtrl"
 						hx-swap="outerHTML"
 					>
-						<i icon="fa-solid fa-eraser"></i> Reset
+						<i icon="fa-solid fa-eraser"></i> { i18n.T(ctx, "Subtitle.Adjustment.Reset") }
 					</button>
 					<button
 						class="m-1 rounded bg-stone-900 px-4 py-2 hover:bg-red-700"
@@ -89,7 +90,7 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 			<div
 				class="col-span-1 flex flex-col rounded-sm px-1 py-3 hover:bg-stone-700"
 			>
-				<h4 class="mb-1 text-sm font-thin">Add sub from file</h4>
+				<h4 class="mb-1 text-sm font-thin">{ i18n.T(ctx, "Subtitle.AddFromFile") }</h4>
 				<input
 					type="file"
 					name="fileInput"
@@ -103,7 +104,7 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 		</div>
 		if len(getSubtitleFiles(torrentInfo)) > 0 {
 			<div class="mt-2 rounded-sm">
-				<h4 class="mb-1 px-1 py-1 text-lg">Available subtitles</h4>
+				<h4 class="mb-1 px-1 py-1 text-lg">{ i18n.T(ctx, "Subtitle.AvailableSubtitles") }</h4>
 				<div class="flex flex-wrap gap-2">
 					for _, file := range getSubtitleFiles(torrentInfo) {
 						if state.Name == file.DisplayPath {

@@ -1,6 +1,7 @@
 package ui
 
 import "TorPlayer2/request"
+import "TorPlayer2/i18n"
 
 templ layout(title string) {
 	<!DOCTYPE html>
@@ -34,11 +35,11 @@ templ layout(title string) {
 }
 
 var menuItems = []struct {
-	Link string
-	Name string
+	Link      string
+	MessageID string
 }{
-	{"/", "Home"},
-	{"/torrents", "Torrents"},
+	{"/", "Nav.Home"},
+	{"/torrents", "Nav.Torrents"},
 }
 
 templ menu() {
@@ -51,7 +52,7 @@ templ menu() {
 					class="mr-6 p-2"
 				}
 			>
-				<a class="hover:text-red-700" href={ templ.SafeURL(item.Link) }>{ item.Name }</a>
+				<a class="hover:text-red-700" href={ templ.SafeURL(item.Link) }>{ i18n.T(ctx, item.MessageID) }</a>
 			</li>
 		}
 	</ul>

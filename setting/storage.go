@@ -12,7 +12,7 @@ import (
 
 type Storage struct {
 	configFilePath string
-	mu             sync.Mutex
+	mu             sync.RWMutex
 	setting        Settings
 }
 
@@ -38,9 +38,15 @@ func NewStorage() *Storage {
 }
 
 func (s *Storage) GetSetting() Settings {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.setting
+}
+
+func (s *Storage) GetLanguage() string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return s.setting
+	return s.setting.Language
 }
 
 func (s *Storage) SaveSetting(setting Settings) error {
@@ -72,6 +78,7 @@ func defaultSetting() Settings {
 		}
 	}
 	return Settings{
+		Language:          "vi",
 		DataDir:           dataDir,
 		DeleteAfterClosed: true,
 	}
@@ -87,6 +94,11 @@ func loadSettingsFromFile(configFilePath string) (Settings, error) {
 	if err := yaml.Unmarshal(yamlFile, &setting); err != nil {
 		return Settings{}, fmt.Errorf("load yaml file: %w", err)
 	}
+
+	if setting.Language == "" {
+		setting.Language = "vi"
+	}
+
 	return setting, nil
 }
 

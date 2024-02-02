@@ -15,6 +15,7 @@ import (
 	"github.com/pkg/browser"
 
 	"TorPlayer2/handler"
+	"TorPlayer2/i18n"
 	"TorPlayer2/request"
 	"TorPlayer2/setting"
 	"TorPlayer2/torrent"
@@ -54,6 +55,7 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(setting.Middleware(settingStorage))
 	r.Use(request.Middleware)
+	r.Use(i18n.Middleware(i18n.NewBundle(), settingStorage))
 
 	r.Handle("/static/*", http.FileServer(http.FS(fs)))
 
