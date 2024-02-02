@@ -43,6 +43,8 @@ func (m *Manager) AddTorrentFromString(torrentString string) (string, error) {
 		tor, _ = m.client.AddTorrentInfoHash(infoHash)
 	}
 
+	m.addedTorrentInfoHashes = append(m.addedTorrentInfoHashes, tor.InfoHash())
+
 	return tor.InfoHash().String(), nil
 }
 
@@ -56,6 +58,8 @@ func (m *Manager) AddTorrentFromFileContent(reader io.Reader) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("add torrent: %w", err)
 	}
+
+	m.addedTorrentInfoHashes = append(m.addedTorrentInfoHashes, tor.InfoHash())
 
 	return tor.InfoHash().String(), nil
 }
