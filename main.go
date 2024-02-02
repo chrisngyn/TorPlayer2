@@ -75,9 +75,9 @@ func main() {
 	}()
 
 	onExit := func() {
-		for _, closeFn := range closeFns {
-			if err := closeFn.fn(); err != nil {
-				slog.With("error", err, "name", closeFn.name).Error("Failed to close")
+		for i := len(closeFns) - 1; i >= 0; i-- {
+			if err := closeFns[i].fn(); err != nil {
+				slog.With("error", err, "name", closeFns[i].name).Error("Failed to close")
 			}
 		}
 	}
