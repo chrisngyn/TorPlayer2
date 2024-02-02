@@ -46,7 +46,7 @@ func (s *Storage) GetSetting() Settings {
 func (s *Storage) GetLanguage() string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return s.setting.Language
+	return s.setting.Locale
 }
 
 func (s *Storage) SaveSetting(setting Settings) error {
@@ -78,7 +78,7 @@ func defaultSetting() Settings {
 		}
 	}
 	return Settings{
-		Language:          "vi",
+		Locale:            "vi",
 		DataDir:           dataDir,
 		DeleteAfterClosed: true,
 	}
@@ -95,8 +95,8 @@ func loadSettingsFromFile(configFilePath string) (Settings, error) {
 		return Settings{}, fmt.Errorf("load yaml file: %w", err)
 	}
 
-	if setting.Language == "" {
-		setting.Language = "vi"
+	if setting.Locale == "" {
+		setting.Locale = "vi"
 	}
 
 	return setting, nil

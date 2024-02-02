@@ -2,6 +2,8 @@ package ui
 
 import "TorPlayer2/request"
 import "TorPlayer2/i18n"
+import "TorPlayer2/setting"
+import "TorPlayer2/handler/uri"
 
 templ layout(title string) {
 	<!DOCTYPE html>
@@ -27,7 +29,10 @@ templ layout(title string) {
 						<span class="text-xl font-bold">TorPlayer</span>
 					</div>
 				</a>
-				@menu()
+				<div class="flex">
+					@menu()
+					@language()
+				</div>
 			</nav>
 			{ children... }
 		</body>
@@ -56,4 +61,44 @@ templ menu() {
 			</li>
 		}
 	</ul>
+}
+
+var languages = []struct {
+	Locale string
+	Name   string
+	Flag   string
+}{
+	{"vi", "VN", "🇻🇳"},
+	{"en", "EN", "🇬🇧"},
+}
+
+func isSelectedLanguage(ctx context.Context, locale string) bool {
+	return locale == setting.GetSettingFromContext(ctx).Locale
+}
+
+templ language() {
+	<div class="inline-flex -space-x-px text-xs">
+		for i := 0; i < len(languages); i++ {
+			<button
+				type="button"
+				class={
+					"border", "border-gray-400", "px-4", "py-2", "text-slate-100",
+					templ.KV("rounded-l", i == 0),
+					templ.KV("rounded-r", i == len(languages)-1),
+					templ.KV("bg-red-600", isSelectedLanguage(ctx, languages[i].Locale)),
+					templ.KV("hover:bg-red-700", isSelectedLanguage(ctx, languages[i].Locale)),
+					templ.KV("bg-stone-900", !isSelectedLanguage(ctx, languages[i].Locale)),
+					templ.KV("hover:bg-stone-800", !isSelectedLanguage(ctx, languages[i].Locale)),
+				}
+				if !isSelectedLanguage(ctx, languages[i].Locale) {
+					hx-post={uri.ChangeLanguageURI(languages[i].Locale)}
+					hx-trigger="click"
+					hx-swap="none"
+					hx-on::after-request="document.location.reload()"
+				}
+			>
+			{ languages[i].Name } <span>{ languages[i].Flag }</span>
+			</button>
+		}
+	</div>
 }
