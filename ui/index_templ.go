@@ -47,7 +47,7 @@ func Index() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"flex flex-col items-center justify-center\"><form action=\"/add-torrent\" method=\"POST\" enctype=\"multipart/form-data\" class=\"flex flex-col items-center justify-center gap-y-4\"><input type=\"text\" name=\"textInput\" autocomplete=\"off\" placeholder=\"Enter magnet, hash or torrent file link\" class=\"w-full rounded border border-gray-400 bg-stone-700 p-4 text-stone-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none\"> <label for=\"fileInput\" class=\"my-2 block text-sm\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"flex flex-col items-center justify-center\" hx-boost=\"true\"><form action=\"/add-torrent\" method=\"POST\" enctype=\"multipart/form-data\" class=\"flex flex-col items-center justify-center gap-y-4\"><input type=\"text\" name=\"textInput\" autocomplete=\"off\" placeholder=\"Enter magnet, hash or torrent file link\" class=\"w-full rounded border border-gray-400 bg-stone-700 p-4 text-stone-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none\"> <label for=\"fileInput\" class=\"my-2 block text-sm\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -56,7 +56,7 @@ func Index() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"file\" name=\"fileInput\" accept=\".torrent\" class=\"rounded border border-gray-400 bg-stone-700 text-stone-100 file:mr-5 file:rounded-l file:border-[0px] file:bg-stone-700 file:p-4 file:text-stone-100 hover:border-red-700 hover:file:cursor-pointer hover:file:bg-stone-800 hover:file:text-red-700\"> <button type=\"submit\" class=\"my-3 rounded bg-red-600 px-6 py-2 hover:bg-red-700 disabled:bg-stone-500\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"file\" name=\"fileInput\" accept=\".torrent\" class=\"rounded border border-gray-400 bg-stone-700 text-stone-100 file:mr-5 file:rounded-l file:border-[0px] file:bg-stone-700 file:p-4 file:text-stone-100 hover:border-red-700 hover:file:cursor-pointer hover:file:bg-stone-800 hover:file:text-red-700\"> <button type=\"submit\" class=\"inline-flex justify-center items-center space-x-1 my-3 rounded bg-red-600 px-6 py-2 hover:bg-red-700 disabled:bg-stone-500 inline\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -65,7 +65,7 @@ func Index() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></form></div></main>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <img class=\"htmx-indicator w-6 h-6\" src=\"/static/loading.svg\"></button></form></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

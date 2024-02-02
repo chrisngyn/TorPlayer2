@@ -21,3 +21,11 @@ func WatchURI(infoHash, fileName string) string {
 func InfoURI(infoHash string) string {
 	return fmt.Sprintf("/torrents/%s", infoHash)
 }
+
+func UnsetSubtitleURI(infoHash string) string {
+	return fmt.Sprintf("/torrents/%s/unset-subtitle", infoHash)
+}
+
+func SelectSubtitleURI(infoHash, fileName string) string {
+	return fmt.Sprintf("/torrents/%s/select-subtitle/%s", infoHash, url.QueryEscape(fileName))
+}

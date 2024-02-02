@@ -11,6 +11,7 @@ templ Info(infoHash string, info torrent.Info) {
 			hx-trigger="every 1s"
 			hx-swap="outerHTML"
 			hx-target="body"
+			hx-indicator="none"
 		>
 			<p class="text-sm italic">Info Hash: { infoHash }</p>
 			<h1 class="text-2xl font-bold">{ info.Name }</h1>
@@ -52,20 +53,23 @@ templ Info(infoHash string, info torrent.Info) {
 									<a
 										type="button"
 										href={ templ.SafeURL(uri.WatchURI(infoHash, file.DisplayPath)) }
-										class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
+										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-play"></i>
-										Watch
+										<span>Watch</span>
 									</a>
-									<a
+									<button
 										type="button"
-										href={ templ.SafeURL(uri.OpenInVLCURI(infoHash, file.DisplayPath)) }
-										class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
-										target="_blank"
+										hx-get={ uri.OpenInVLCURI(infoHash, file.DisplayPath) }
+										hx-trigger="click"
+										hx-swap="none"
+										hx-indicator=".htmx-indicator"
+										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-film"></i>
-										Open in VLC
-									</a>
+										<span>Open in VLC</span>
+										<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
+									</button>
 								}
 							</td>
 						</tr>

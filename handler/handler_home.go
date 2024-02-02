@@ -37,6 +37,7 @@ func (h *Handler) AddTorrent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	infoURL := path.Join("/torrents/", infoHash)
+	w.Header().Set("HX-Redirect", infoURL)
 	http.Redirect(w, r, infoURL, http.StatusSeeOther)
 }
 

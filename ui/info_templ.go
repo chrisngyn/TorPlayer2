@@ -40,7 +40,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"every 1s\" hx-swap=\"outerHTML\" hx-target=\"body\"><p class=\"text-sm italic\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"every 1s\" hx-swap=\"outerHTML\" hx-target=\"body\" hx-indicator=\"none\"><p class=\"text-sm italic\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -52,7 +52,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(infoHash)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 14, Col: 50}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 15, Col: 50}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -65,7 +65,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(info.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 15, Col: 45}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 16, Col: 45}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -83,7 +83,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(byteCounter(info.Length))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 17, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 18, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -110,7 +110,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(toString(info.Stats.TotalPeers))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 22, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 23, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -128,7 +128,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(toString(info.Stats.ActivePeers))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 23, Col: 56}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 24, Col: 56}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -146,7 +146,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(toString(info.Stats.PendingPeers))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 24, Col: 58}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 25, Col: 58}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -164,7 +164,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var16 string
 			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(toString(info.Stats.ConnectedSeeders))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 25, Col: 66}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 26, Col: 66}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 			if templ_7745c5c3_Err != nil {
@@ -182,7 +182,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			var templ_7745c5c3_Var18 string
 			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(toString(info.Stats.HalfOpenPeers))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 26, Col: 61}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 27, Col: 61}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 			if templ_7745c5c3_Err != nil {
@@ -244,7 +244,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 				var templ_7745c5c3_Var23 string
 				templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(file.DisplayPath)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 46, Col: 47}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 47, Col: 47}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 				if templ_7745c5c3_Err != nil {
@@ -257,7 +257,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 				var templ_7745c5c3_Var24 string
 				templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(byteCounter(file.Length))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 47, Col: 66}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 48, Col: 66}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 				if templ_7745c5c3_Err != nil {
@@ -270,7 +270,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 				var templ_7745c5c3_Var25 string
 				templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(percent(file.BytesCompleted, file.Length))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 48, Col: 83}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/info.templ`, Line: 49, Col: 83}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 				if templ_7745c5c3_Err != nil {
@@ -290,7 +290,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900\"><i class=\"fa-solid fa-play\"></i> ")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900\"><i class=\"fa-solid fa-play\"></i> <span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -299,25 +299,24 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a> <a type=\"button\" href=\"")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> <button type=\"button\" hx-get=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					var templ_7745c5c3_Var28 templ.SafeURL = templ.SafeURL(uri.OpenInVLCURI(infoHash, file.DisplayPath))
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var28)))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.OpenInVLCURI(infoHash, file.DisplayPath)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900\" target=\"_blank\"><i class=\"fa-solid fa-film\"></i> ")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"click\" hx-swap=\"none\" hx-indicator=\".htmx-indicator\" class=\"inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900\"><i class=\"fa-solid fa-film\"></i> <span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Var29 := `Open in VLC`
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var29)
+					templ_7745c5c3_Var28 := `Open in VLC`
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var28)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a>")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <img class=\"htmx-indicator w-6 h-6\" src=\"/static/loading.svg\"></button>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

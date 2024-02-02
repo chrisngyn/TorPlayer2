@@ -23,6 +23,7 @@ func (m *Manager) GetTorrentInfo(infoHashHex string) (Info, error) {
 func (m *Manager) ListTorrents(offset, limit int) ([]Info, int) {
 	infos := make([]Info, 0, limit)
 	torrents := m.client.Torrents()
+
 	lower := min(offset, len(torrents))
 	upper := min(offset+limit, len(torrents))
 	for _, tor := range torrents[lower:upper] {
