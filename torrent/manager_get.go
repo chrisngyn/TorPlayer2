@@ -22,26 +22,24 @@ func (m *Manager) GetTorrentInfo(infoHashHex string) (Info, error) {
 
 func (m *Manager) ListTorrents(offset, limit int) ([]Info, int) {
 	infos := make([]Info, 0, limit)
-	torrents := m.client.Torrents()
-	lower := min(offset, len(torrents))
-	upper := min(offset+limit, len(torrents))
-	for _, tor := range torrents[lower:upper] {
-		if i := tor.Info(); i == nil {
+	total := len(m.addedTorrentInfoHashes)
+
+	for i := total - 1 - offset; (0 <= i) && (i < len(m.addedTorrentInfoHashes)) && (len(infos) < limit); i-- {
+		infoHash := m.addedTorrentInfoHashes[i]
+		tor, ok := m.client.Torrent(infoHash)
+		if !ok {
+			infos = append(infos, Info{InfoHash: infoHash.String()})
 			continue
 		}
+		if i := tor.Info(); i == nil {
+			infos = append(infos, Info{InfoHash: infoHash.String()})
+			continue
+		}
+
 		infos = append(infos, toInfo(tor))
 	}
-	return infos, m.totalTorrent()
-}
 
-func (m *Manager) totalTorrent() int {
-	total := 0
-	for _, tor := range m.client.Torrents() {
-		if tor.Info() != nil {
-			total++
-		}
-	}
-	return total
+	return infos, total
 }
 
 func (m *Manager) GetFile(infoHashHex, path string) (*torrent.File, error) {

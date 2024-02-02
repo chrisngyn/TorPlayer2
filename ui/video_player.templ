@@ -1,7 +1,6 @@
 package ui
 
 import "fmt"
-import "net/url"
 import "TorPlayer2/torrent"
 import "TorPlayer2/subtitle"
 import "TorPlayer2/handler/uri"
@@ -109,21 +108,25 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 					for _, file := range getSubtitleFiles(torrentInfo) {
 						if state.Name == file.DisplayPath {
 							<button
-								class="rounded bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700"
-								hx-delete={ fmt.Sprintf("/torrents/%s/unset-subtitle", torrentInfo.InfoHash) }
+								class="inline-flex justify-center items-center space-x-1 rounded bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700"
+								hx-delete={ uri.UnsetSubtitleURI(torrentInfo.InfoHash) }
 								hx-target="#subtitleCtrl"
 								hx-swap="outerHTML"
+								hx-indicator="find .htmx-indicator"
 							>
-								{ file.DisplayPath }
+								<span>{ file.DisplayPath }</span>
+								<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
 							</button>
 						} else {
 							<button
-								class="rounded bg-stone-900 px-4 py-2 text-slate-100 hover:bg-stone-800"
-								hx-post={ fmt.Sprintf("/torrents/%s/select-subtitle/%s", torrentInfo.InfoHash, url.QueryEscape(file.DisplayPath)) }
+								class="inline-flex justify-center items-center space-x-1 rounded bg-stone-900 px-4 py-2 text-slate-100 hover:bg-stone-800"
+								hx-post={ uri.SelectSubtitleURI(torrentInfo.InfoHash, file.DisplayPath) }
 								hx-target="#subtitleCtrl"
 								hx-swap="outerHTML"
+								hx-indicator="find .htmx-indicator"
 							>
-								{ file.DisplayPath }
+								<span>{ file.DisplayPath }</span>
+								<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
 							</button>
 						}
 					}

@@ -11,7 +11,7 @@ templ Index() {
 					Video streaming from the torrent network
 				</p>
 			</div>
-			<div class="flex flex-col items-center justify-center">
+			<div class="flex flex-col items-center justify-center" hx-boost="true">
 				<form
 					action="/add-torrent"
 					method="POST"
@@ -34,9 +34,10 @@ templ Index() {
 					/>
 					<button
 						type="submit"
-						class="my-3 rounded bg-red-600 px-6 py-2 hover:bg-red-700 disabled:bg-stone-500"
+						class="inline-flex justify-center items-center space-x-1 my-3 rounded bg-red-600 px-6 py-2 hover:bg-red-700 disabled:bg-stone-500 inline"
 					>
-						Get Info
+						<span>Get Info</span>
+						<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
 					</button>
 				</form>
 			</div>

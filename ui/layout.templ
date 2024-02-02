@@ -8,7 +8,8 @@ templ layout(title string) {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+			<meta name="htmx-config" content='{"includeIndicatorStyles": false}'/>
+			<link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
 			<link href="/static/style/output.css" rel="stylesheet"/>
 			<script src="https://kit.fontawesome.com/aff606e071.js" crossorigin="anonymous"></script>
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
@@ -43,13 +44,13 @@ var menuItems = []struct {
 templ menu() {
 	<ul class="flex">
 		for _, item := range menuItems {
-			<li 
-        if item.Link == request.GetContext(ctx).URL {
-          class="mr-6 border-b-2 border-red-700 p-2"
-        } else {
-          class="mr-6 p-2"
-        }
-      >
+			<li
+				if item.Link == request.GetContext(ctx).URL {
+					class="mr-6 border-b-2 border-red-700 p-2"
+				} else {
+					class="mr-6 p-2"
+				}
+			>
 				<a class="hover:text-red-700" href={ templ.SafeURL(item.Link) }>{ item.Name }</a>
 			</li>
 		}

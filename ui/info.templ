@@ -5,10 +5,32 @@ import "TorPlayer2/handler/uri"
 
 templ Info(infoHash string, info torrent.Info) {
 	@layout(info.Name) {
-		<main class="box-border px-4 py-2">
+		<main
+			class="box-border px-4 py-2"
+			hx-get={ uri.InfoURI(infoHash) }
+			hx-trigger="every 1s"
+			hx-swap="outerHTML"
+			hx-target="body"
+			hx-indicator="none"
+		>
 			<p class="text-sm italic">Info Hash: { infoHash }</p>
 			<h1 class="text-2xl font-bold">{ info.Name }</h1>
-			<p>Size: { byteCounter(info.Length) }</p>
+			<p class="text-sm">
+				<span>Size: { byteCounter(info.Length) }</span>
+			</p>
+			<div class="mt-4">
+				<h3 class="text-bold">Statistics</h3>
+				<div class="grid grid-cols-3 gap-x-4 gap-y-2 text-sm">
+					<p>Total Peers: { toString(info.Stats.TotalPeers) }</p>
+					<p>Active Peers: { toString(info.Stats.ActivePeers) }</p>
+					<p>Pending Peers: { toString(info.Stats.PendingPeers) }</p>
+					<p>Connected Seeders: { toString(info.Stats.ConnectedSeeders) }</p>
+					<p>Haft Open Peers: { toString(info.Stats.HalfOpenPeers) }</p>
+				</div>
+				<div class="mt-2">
+					@progressBar(info.BytesCompleted, info.Length)
+				</div>
+			</div>
 			<table
 				class="my-4 w-full table-auto border-2 border-gray-400 shadow-md shadow-stone-900"
 			>
@@ -31,20 +53,23 @@ templ Info(infoHash string, info torrent.Info) {
 									<a
 										type="button"
 										href={ templ.SafeURL(uri.WatchURI(infoHash, file.DisplayPath)) }
-										class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
+										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-play"></i>
-										Watch
+										<span>Watch</span>
 									</a>
-									<a
+									<button
 										type="button"
-										href={ templ.SafeURL(uri.OpenInVLCURI(infoHash, file.DisplayPath)) }
-										class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
-										target="_blank"
+										hx-get={ uri.OpenInVLCURI(infoHash, file.DisplayPath) }
+										hx-trigger="click"
+										hx-swap="none"
+										hx-indicator=".htmx-indicator"
+										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-film"></i>
-										Open in VLC
-									</a>
+										<span>Open in VLC</span>
+										<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
+									</button>
 								}
 							</td>
 						</tr>

@@ -10,7 +10,8 @@ import (
 )
 
 type Manager struct {
-	client *torrent.Client
+	client                 *torrent.Client
+	addedTorrentInfoHashes []infohash.T
 }
 
 func NewManager(dataDir string) *Manager {

@@ -11,7 +11,6 @@ import "io"
 import "bytes"
 
 import "fmt"
-import "net/url"
 import "TorPlayer2/torrent"
 import "TorPlayer2/subtitle"
 import "TorPlayer2/handler/uri"
@@ -52,7 +51,7 @@ func VideoPlayer(info torrent.Info, fileName string) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fileName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 21, Col: 39}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 20, Col: 39}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -151,7 +150,7 @@ func subtitleController(torrentInfo torrent.Info, state subtitle.State) templ.Co
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(state.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 49, Col: 39}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 48, Col: 39}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -223,7 +222,7 @@ func subtitleController(torrentInfo torrent.Info, state subtitle.State) templ.Co
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(toString(state.AdjustmentMilliseconds))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 78, Col: 61}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 77, Col: 61}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -288,54 +287,54 @@ func subtitleController(torrentInfo torrent.Info, state subtitle.State) templ.Co
 			}
 			for _, file := range getSubtitleFiles(torrentInfo) {
 				if state.Name == file.DisplayPath {
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"rounded bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700\" hx-delete=\"")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"inline-flex justify-center items-center space-x-1 rounded bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700\" hx-delete=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("/torrents/%s/unset-subtitle", torrentInfo.InfoHash)))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.UnsetSubtitleURI(torrentInfo.InfoHash)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#subtitleCtrl\" hx-swap=\"outerHTML\">")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#subtitleCtrl\" hx-swap=\"outerHTML\" hx-indicator=\"find .htmx-indicator\"><span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var16 string
 					templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(file.DisplayPath)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 116, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 116, Col: 32}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button>")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <img class=\"htmx-indicator w-6 h-6\" src=\"/static/loading.svg\"></button>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				} else {
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"rounded bg-stone-900 px-4 py-2 text-slate-100 hover:bg-stone-800\" hx-post=\"")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"inline-flex justify-center items-center space-x-1 rounded bg-stone-900 px-4 py-2 text-slate-100 hover:bg-stone-800\" hx-post=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("/torrents/%s/select-subtitle/%s", torrentInfo.InfoHash, url.QueryEscape(file.DisplayPath))))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.SelectSubtitleURI(torrentInfo.InfoHash, file.DisplayPath)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#subtitleCtrl\" hx-swap=\"outerHTML\">")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#subtitleCtrl\" hx-swap=\"outerHTML\" hx-indicator=\"find .htmx-indicator\"><span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var17 string
 					templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(file.DisplayPath)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 125, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/video_player.templ`, Line: 127, Col: 32}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button>")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <img class=\"htmx-indicator w-6 h-6\" src=\"/static/loading.svg\"></button>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
