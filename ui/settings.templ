@@ -14,9 +14,9 @@ templ Settings(settings setting.Settings) {
 				<div class="mt-4 border-b border-gray-400">
 					<div class="my-4 grid grid-cols-2">
 						<div>
-							<h2 class="text-lg font-semibold leading-4">Language</h2>
-							<p class="">
-								Ngôn ngữ hiển thị của ứng dụng
+							<h2 class="text-lg font-semibold leading-4">{ i18n.T(ctx, "Settings.Language.Title") }</h2>
+							<p class="text-sm">
+								{ i18n.T(ctx, "Settings.Language.Description") }
 							</p>
 						</div>
 						<div class="flex justify-end">
@@ -40,9 +40,9 @@ templ Settings(settings setting.Settings) {
 				<div class="mt-4 border-b border-gray-400">
 					<div class="my-4 grid grid-cols-2">
 						<div>
-							<h2 class="text-lg font-semibold leading-4">Data Directory</h2>
-							<p class="">
-								Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+							<h2 class="text-lg font-semibold leading-4">{ i18n.T(ctx, "Settings.DataDir.Title") }</h2>
+							<p class="text-sm">
+								{ i18n.T(ctx, "Settings.DataDir.Description") }
 							</p>
 							<p class="italic">{ settings.DataDir }</p>
 						</div>
@@ -51,7 +51,7 @@ templ Settings(settings setting.Settings) {
 								<button
 									class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 shadow-md shadow-stone-900 hover:bg-red-700"
 								>
-									Change
+									{ i18n.T(ctx, "Settings.DataDir.Change") }
 								</button>
 							</div>
 						</div>
@@ -61,10 +61,10 @@ templ Settings(settings setting.Settings) {
 					<div class="my-4 grid grid-cols-2">
 						<div>
 							<h2 class="text-lg font-semibold leading-4">
-								Delete after closed
+								{ i18n.T(ctx, "Settings.DeleteAfterClosed.Title") }
 							</h2>
-							<p class="">
-								Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+							<p class="text-sm">
+								{ i18n.T(ctx, "Settings.DeleteAfterClosed.Description") }
 							</p>
 						</div>
 						<div class="flex justify-end">
@@ -79,12 +79,12 @@ templ Settings(settings setting.Settings) {
 										hx-post={ uri.UpdateSettings() }
 										hx-swap="outerHTML"
 										hx-target="body"
-                                        hx-include="[name=deleteAfterClosed]"
+										hx-include="[name=deleteAfterClosed]"
 									/>
 									<div
 										class="peer h-7 w-14 rounded-full border-gray-600 bg-stone-700 after:absolute after:start-[4px] after:top-0.5 after:h-6 after:w-6 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-700 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-500 rtl:peer-checked:after:-translate-x-full"
 									></div>
-                                    <input type="hidden" name="deleteAfterClosed" value="false" />
+									<input type="hidden" name="deleteAfterClosed" value="false"/>
 								</label>
 							</div>
 						</div>

@@ -50,7 +50,16 @@ Subtitle:
 
 Settings:
   Title: "Cài đặt"
-  Language: "Ngôn ngữ"
+  Language:
+    Title: "Ngôn ngữ"
+    Description: "Thay đổi ngôn ngữ của ứng dụng"
+  DataDir:
+    Title: "Thư mục dữ liệu"
+    Description: "Thay đổi thư mục lưu trữ dữ liệu của ứng dụng"
+    Change: "Thay đổi"
+  DeleteAfterClosed:
+    Title: "Xóa khi đóng"
+    Description: "Xóa tất cả dữ liệu khi ứng dụng đóng"
 
 
 

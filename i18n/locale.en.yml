@@ -51,7 +51,16 @@ Subtitle:
 
 Settings:
   Title: "Settings"
-  Language: "Language"
+  Language:
+    Title: "Language"
+    Description: "Change the language of the application"
+  DataDir:
+    Title: "Data Directory"
+    Description: "Change the directory where the application stores data"
+    Change: "Change"
+  DeleteAfterClosed:
+    Title: "Delete After Closed"
+    Description: "Delete the downloaded files when the application is closed"
   
 
 
