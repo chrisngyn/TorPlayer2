@@ -5,6 +5,7 @@ Slogan: "Phát video từ mạng torrent"
 Nav:
   Home: "Trang chủ"
   Torrents: "Tập tin torrent"
+  Settings: "Cài đặt"
 
 Home:
   TextInput:

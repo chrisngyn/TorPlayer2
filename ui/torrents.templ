@@ -4,7 +4,6 @@ import "TorPlayer2/torrent"
 import "strconv"
 import "fmt"
 import "math"
-import "TorPlayer2/setting"
 import "TorPlayer2/handler/uri"
 import "TorPlayer2/i18n"
 
@@ -19,7 +18,6 @@ templ Torrents(infos []torrent.Info, total, page, pageSize int) {
 		>
 			<h1 class="text-2xl font-bold">{ i18n.T(ctx, "Torrents.Title") }</h1>
 			<p class="">{ i18n.TWithData(ctx, "Torrents.Total", nil, total) }</p>
-			@Setting()
 			<section class="mt-4">
 				for _, info := range infos {
 					@torrentInfo(info)
@@ -98,32 +96,6 @@ templ pagination(total, page, pageSize, totalPage int) {
 			</li>
 		</ul>
 	</nav>
-}
-
-templ Setting() {
-	<section id="settingCtrl" class="my-2">
-		<p class="">
-			{ i18n.T(ctx, "Setting.HaveSavedAt") }
-			<span class="font-light italic">{ setting.GetSettingFromContext(ctx).DataDir }</span>
-		</p>
-		<form
-			class="flex items-center"
-			hx-ext="debug"
-			hx-post="/settings"
-			hx-target="#settingCtrl"
-			hx-swap="outerHTML"
-			hx-trigger="change"
-		>
-			<input
-				name="deleteAfterClosed"
-				type="checkbox"
-				class="mr-1 h-4 w-4 rounded-sm border-2 border-stone-700 bg-stone-700 p-1 accent-red-600"
-				if setting.GetSettingFromContext(ctx).DeleteAfterClosed {
-					checked
-				}
-			/><label for="deleteAfterClosed">{ i18n.T(ctx, "Setting.DeleteWhenClose") }</label>
-		</form>
-	</section>
 }
 
 templ progressBar(value, total int64) {

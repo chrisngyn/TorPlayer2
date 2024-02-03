@@ -97,11 +97,7 @@ func (h *Handler) Register(r chi.Router) {
 	})
 
 	// setting
-	r.Post("/settings", h.UpdateSetting)
-	r.Post("/settings/change-language/{locale}", func(w http.ResponseWriter, r *http.Request) {
-		locale := chi.URLParam(r, "locale")
-		h.ChangeLanguage(w, r, locale)
-	})
+	r.Get("/settings", h.GetSettings)
 
 }
 

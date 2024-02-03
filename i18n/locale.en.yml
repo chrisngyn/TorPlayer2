@@ -6,6 +6,7 @@ Slogan: "Video streaming from the torrent network"
 Nav:
   Home: "Home"
   Torrents: "Torrent Files"
+  Settings: "Settings"
 
 Home:
   TextInput:
