@@ -6,34 +6,34 @@ import (
 	"net/url"
 )
 
-func StreamURI(infoHash, fileName string) string {
+func Stream(infoHash, fileName string) string {
 	return fmt.Sprintf("/stream/%s/%s", infoHash, url.QueryEscape(fileName))
 }
 
-func OpenInVLCURI(infoHash, fileName string) string {
+func OpenInVLC(infoHash, fileName string) string {
 	return fmt.Sprintf("/open-in-vlc/%s/%s", infoHash, url.QueryEscape(fileName))
 }
 
-func WatchURI(infoHash, fileName string) string {
+func Watch(infoHash, fileName string) string {
 	return fmt.Sprintf("/torrents/%s/watch/%s", infoHash, url.QueryEscape(fileName))
 }
 
-func InfoURI(infoHash string) string {
+func Info(infoHash string) string {
 	return fmt.Sprintf("/torrents/%s", infoHash)
 }
 
-func UnsetSubtitleURI(infoHash string) string {
+func UnsetSubtitle(infoHash string) string {
 	return fmt.Sprintf("/torrents/%s/unset-subtitle", infoHash)
 }
 
-func SelectSubtitleURI(infoHash, fileName string) string {
+func SelectSubtitle(infoHash, fileName string) string {
 	return fmt.Sprintf("/torrents/%s/select-subtitle/%s", infoHash, url.QueryEscape(fileName))
 }
 
-func GetSettingsURI() string {
+func GetSettings() string {
 	return "/settings"
 }
 
-func UpdateSettingURI() string {
+func UpdateSettings() string {
 	return "/settings"
 }

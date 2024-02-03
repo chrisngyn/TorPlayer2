@@ -57,7 +57,7 @@ func (h *Handler) OpenInVLC(w http.ResponseWriter, r *http.Request, infoHash, fi
 		protocol = "https"
 	}
 
-	streamURL := protocol + "://" + r.Host + uri.StreamURI(infoHash, fileName)
+	streamURL := protocol + "://" + r.Host + uri.Stream(infoHash, fileName)
 
 	if err := vlc.OpenURL(streamURL); err != nil {
 		handleError(w, r, "Open in VLC", err, http.StatusBadRequest)

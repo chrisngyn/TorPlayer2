@@ -8,7 +8,7 @@ templ Info(infoHash string, info torrent.Info) {
 	@layout(info.Name) {
 		<main
 			class="box-border px-4 py-2"
-			hx-get={ uri.InfoURI(infoHash) }
+			hx-get={ uri.Info(infoHash) }
 			hx-trigger="every 1s"
 			hx-swap="outerHTML"
 			hx-target="body"
@@ -53,7 +53,7 @@ templ Info(infoHash string, info torrent.Info) {
 								if isVideoFile(file.DisplayPath) {
 									<a
 										type="button"
-										href={ templ.SafeURL(uri.WatchURI(infoHash, file.DisplayPath)) }
+										href={ templ.SafeURL(uri.Watch(infoHash, file.DisplayPath)) }
 										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-play"></i>
@@ -61,7 +61,7 @@ templ Info(infoHash string, info torrent.Info) {
 									</a>
 									<button
 										type="button"
-										hx-get={ uri.OpenInVLCURI(infoHash, file.DisplayPath) }
+										hx-get={ uri.OpenInVLC(infoHash, file.DisplayPath) }
 										hx-trigger="click"
 										hx-swap="none"
 										hx-indicator=".htmx-indicator"

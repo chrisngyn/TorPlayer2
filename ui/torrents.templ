@@ -30,7 +30,7 @@ templ Torrents(infos []torrent.Info, total, page, pageSize int) {
 
 templ torrentInfo(info torrent.Info) {
 	<article class="mt-4">
-		<a href={ templ.URL(uri.InfoURI(info.InfoHash)) }>
+		<a href={ templ.URL(uri.Info(info.InfoHash)) }>
 			<div
 				class="flex items-center justify-between rounded bg-stone-700 px-4 pb-4 pt-4 hover:bg-stone-600 cursor-pointer"
 			>

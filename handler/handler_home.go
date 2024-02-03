@@ -36,7 +36,7 @@ func (h *Handler) AddTorrent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	infoURL := uri.InfoURI(infoHash)
+	infoURL := uri.Info(infoHash)
 	redirect(w, r, infoURL)
 }
 

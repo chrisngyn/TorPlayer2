@@ -28,7 +28,7 @@ templ VideoPlayer(info torrent.Info, fileName string) {
 				crossorigin="anonymous"
 				class="w-full shadow-sm shadow-stone-900"
 			>
-				<source src={ uri.StreamURI(info.InfoHash, fileName) } type="video/mp4"/>
+				<source src={ uri.Stream(info.InfoHash, fileName) } type="video/mp4"/>
 				<div id="track"></div>
 			</video>
 			@subtitleController(info, subtitle.State{})
@@ -110,7 +110,7 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 						if state.Name == file.DisplayPath {
 							<button
 								class="inline-flex justify-center items-center space-x-1 rounded bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700"
-								hx-delete={ uri.UnsetSubtitleURI(torrentInfo.InfoHash) }
+								hx-delete={ uri.UnsetSubtitle(torrentInfo.InfoHash) }
 								hx-target="#subtitleCtrl"
 								hx-swap="outerHTML"
 								hx-indicator="find .htmx-indicator"
@@ -121,7 +121,7 @@ templ subtitleController(torrentInfo torrent.Info, state subtitle.State) {
 						} else {
 							<button
 								class="inline-flex justify-center items-center space-x-1 rounded bg-stone-900 px-4 py-2 text-slate-100 hover:bg-stone-800"
-								hx-post={ uri.SelectSubtitleURI(torrentInfo.InfoHash, file.DisplayPath) }
+								hx-post={ uri.SelectSubtitle(torrentInfo.InfoHash, file.DisplayPath) }
 								hx-target="#subtitleCtrl"
 								hx-swap="outerHTML"
 								hx-indicator="find .htmx-indicator"

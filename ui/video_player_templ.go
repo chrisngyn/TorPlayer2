@@ -62,7 +62,7 @@ func VideoPlayer(info torrent.Info, fileName string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.StreamURI(info.InfoHash, fileName)))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.Stream(info.InfoHash, fileName)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -312,7 +312,7 @@ func subtitleController(torrentInfo torrent.Info, state subtitle.State) templ.Co
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.UnsetSubtitleURI(torrentInfo.InfoHash)))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.UnsetSubtitle(torrentInfo.InfoHash)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -338,7 +338,7 @@ func subtitleController(torrentInfo torrent.Info, state subtitle.State) templ.Co
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.SelectSubtitleURI(torrentInfo.InfoHash, file.DisplayPath)))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.SelectSubtitle(torrentInfo.InfoHash, file.DisplayPath)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

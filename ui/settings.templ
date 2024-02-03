@@ -26,7 +26,7 @@ templ Settings(settings setting.Settings) {
 									id="locale"
 									class="rounded border border-gray-400 bg-stone-700 p-2 text-slate-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none"
 									value={ settings.Locale }
-									hx-post={ uri.UpdateSettingURI() }
+									hx-post={ uri.UpdateSettings() }
 									hx-swap="outerHTML"
 									hx-target="body"
 								>
@@ -76,7 +76,7 @@ templ Settings(settings setting.Settings) {
 										type="checkbox"
 										class="peer sr-only"
 										checked?={ settings.DeleteAfterClosed }
-										hx-post={ uri.UpdateSettingURI() }
+										hx-post={ uri.UpdateSettings() }
 										hx-swap="outerHTML"
 										hx-target="body"
                                         hx-include="[name=deleteAfterClosed]"

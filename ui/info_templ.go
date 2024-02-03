@@ -37,7 +37,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.InfoURI(infoHash)))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.Info(infoHash)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -315,7 +315,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					var templ_7745c5c3_Var27 templ.SafeURL = templ.SafeURL(uri.WatchURI(infoHash, file.DisplayPath))
+					var templ_7745c5c3_Var27 templ.SafeURL = templ.SafeURL(uri.Watch(infoHash, file.DisplayPath))
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var27)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
@@ -337,7 +337,7 @@ func Info(infoHash string, info torrent.Info) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.OpenInVLCURI(infoHash, file.DisplayPath)))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(uri.OpenInVLC(infoHash, file.DisplayPath)))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

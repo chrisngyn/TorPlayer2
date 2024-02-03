@@ -35,5 +35,5 @@ func (h *Handler) UpdateSetting(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	redirect(w, r, uri.GetSettingsURI())
+	redirect(w, r, uri.GetSettings())
 }
