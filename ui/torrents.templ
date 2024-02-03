@@ -8,7 +8,7 @@ import "TorPlayer2/handler/uri"
 import "TorPlayer2/i18n"
 
 templ Torrents(infos []torrent.Info, total, page, pageSize int) {
-	@layout("Torrent Files") {
+	@layout(i18n.MustT(ctx, "Torrents.Title")) {
 		<main
 			class="box-border px-4 py-2"
 			hx-get="/torrents"

@@ -1,12 +1,13 @@
 package ui
 
 import "TorPlayer2/i18n"
+import "TorPlayer2/setting"
 
-templ Settings() {
-	@layout("Settings") {
+templ Settings(settings setting.Settings) {
+	@layout(i18n.MustT(ctx, "Settings.Title")) {
 		<main class="box-border px-8 py-2">
 			<div class="border-b border-gray-400 pb-8 pt-4">
-				<h1 class="text-2xl font-bold">{ i18n.T(ctx, "Nav.Settings") }</h1>
+				<h1 class="text-2xl font-bold">{ i18n.T(ctx, "Settings.Title") }</h1>
 			</div>
 			<div>
 				<div class="mt-4 border-b border-gray-400">
@@ -14,7 +15,7 @@ templ Settings() {
 						<div>
 							<h2 class="text-lg font-semibold leading-4">Language</h2>
 							<p class="">
-								Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+								Ngôn ngữ hiển thị của ứng dụng
 							</p>
 						</div>
 						<div class="flex justify-end">
@@ -23,6 +24,7 @@ templ Settings() {
 									name="language"
 									id="language"
 									class="rounded border border-gray-400 bg-stone-700 p-2 text-slate-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none"
+									value={ settings.Locale }
 								>
 									<option value="vi">Tiếng Việt <span>🇻🇳</span></option>
 									<option value="en">English <span>🇬🇧</span></option>
@@ -38,7 +40,7 @@ templ Settings() {
 							<p class="">
 								Lorem ipsum dolor, sit amet consectetur adipisicing elit.
 							</p>
-							<p class="italic">/User/lap1234/Download/TorPlayer</p>
+							<p class="italic">{ settings.DataDir }</p>
 						</div>
 						<div class="flex justify-end">
 							<div class="flex items-center">
@@ -64,7 +66,7 @@ templ Settings() {
 						<div class="flex justify-end">
 							<div class="flex items-center">
 								<label class="relative inline-flex cursor-pointer items-center">
-									<input type="checkbox" value="" class="peer sr-only"/>
+									<input type="checkbox" value="" class="peer sr-only" checked?={ settings.DeleteAfterClosed }/>
 									<div
 										class="peer h-7 w-14 rounded-full border-gray-600 bg-stone-700 after:absolute after:start-[4px] after:top-0.5 after:h-6 after:w-6 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-700 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-500 rtl:peer-checked:after:-translate-x-full"
 									></div>

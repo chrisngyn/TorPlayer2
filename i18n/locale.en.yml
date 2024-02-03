@@ -49,6 +49,11 @@ Subtitle:
   AddFromFile: "Add subtitle from file"
   AvailableSubtitles: "Available subtitles"
 
+Settings:
+  Title: "Settings"
+  Language: "Language"
+  
+
 
 
 

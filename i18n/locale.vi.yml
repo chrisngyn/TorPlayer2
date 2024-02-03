@@ -48,8 +48,9 @@ Subtitle:
   AddFromFile: "Thêm phụ đề từ tập tin"
   AvailableSubtitles: "Phụ đề có sẵn"
 
-
-
+Settings:
+  Title: "Cài đặt"
+  Language: "Ngôn ngữ"
 
 
 

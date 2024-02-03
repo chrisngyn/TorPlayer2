@@ -7,7 +7,11 @@ import (
 )
 
 func (h *Handler) GetSettings(w http.ResponseWriter, r *http.Request) {
-	_ = ui.Settings().Render(r.Context(), w)
+	settings := h.settingStorage.GetSettings()
+	err := ui.Settings(settings).Render(r.Context(), w)
+	if err != nil {
+		handleError(w, r, "Render settings", err, http.StatusInternalServerError)
+	}
 }
 
 func (h *Handler) UpdateSetting(w http.ResponseWriter, r *http.Request) {
@@ -16,13 +20,13 @@ func (h *Handler) UpdateSetting(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	setting := h.settingStorage.GetSetting()
-	setting.DeleteAfterClosed = r.Form.Get("deleteAfterClosed") == "on"
+	settings := h.settingStorage.GetSettings()
+	settings.DeleteAfterClosed = r.Form.Get("deleteAfterClosed") == "on"
 
-	if err := h.settingStorage.SaveSetting(setting); err != nil {
+	if err := h.settingStorage.SaveSetting(settings); err != nil {
 		handleError(w, r, "Save setting", err, http.StatusInternalServerError)
 		return
 	}
 
-	_ = ui.Settings().Render(r.Context(), w)
+	_ = ui.Settings(settings).Render(r.Context(), w)
 }

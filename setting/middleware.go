@@ -17,5 +17,5 @@ func Middleware(storage *Storage) func(next http.Handler) http.Handler {
 }
 
 func GetSettingFromContext(ctx context.Context) Settings {
-	return ctx.Value(ctxKey{}).(*Storage).GetSetting()
+	return ctx.Value(ctxKey{}).(*Storage).GetSettings()
 }

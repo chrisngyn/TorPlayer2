@@ -41,10 +41,10 @@ func main() {
 
 	settingStorage := setting.NewStorage()
 	closeFns = append(closeFns, closeFn{"storage", func() error {
-		return cleanUpStorage(settingStorage.GetSetting())
+		return cleanUpStorage(settingStorage.GetSettings())
 	}})
 
-	settings := settingStorage.GetSetting()
+	settings := settingStorage.GetSettings()
 
 	m := torrent.NewManager(settings.DataDir)
 	closeFns = append(closeFns, closeFn{"torrent manager", m.Close})

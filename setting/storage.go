@@ -37,7 +37,7 @@ func NewStorage() *Storage {
 	}
 }
 
-func (s *Storage) GetSetting() Settings {
+func (s *Storage) GetSettings() Settings {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	return s.setting
