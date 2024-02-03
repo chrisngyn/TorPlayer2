@@ -98,6 +98,7 @@ func (h *Handler) Register(r chi.Router) {
 
 	// setting
 	r.Get("/settings", h.GetSettings)
+	r.Post("/settings", h.UpdateSetting)
 
 }
 
@@ -109,4 +110,9 @@ func handleError(w http.ResponseWriter, r *http.Request, msg string, err error, 
 
 func alertError(msg string, err error) {
 	_ = beeep.Alert("Error", msg+": "+err.Error(), "")
+}
+
+func redirect(w http.ResponseWriter, r *http.Request, url string) {
+	w.Header().Set("HX-Redirect", url)
+	http.Redirect(w, r, url, http.StatusSeeOther)
 }

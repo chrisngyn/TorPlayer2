@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"TorPlayer2/handler/uri"
 	"TorPlayer2/ui"
 )
 
@@ -21,12 +22,18 @@ func (h *Handler) UpdateSetting(w http.ResponseWriter, r *http.Request) {
 	}
 
 	settings := h.settingStorage.GetSettings()
-	settings.DeleteAfterClosed = r.Form.Get("deleteAfterClosed") == "on"
+
+	if r.Form.Has("locale") {
+		settings.Locale = r.Form.Get("locale")
+	}
+	if r.Form.Has("deleteAfterClosed") {
+		settings.DeleteAfterClosed = r.Form.Get("deleteAfterClosed") == "on"
+	}
 
 	if err := h.settingStorage.SaveSetting(settings); err != nil {
 		handleError(w, r, "Save setting", err, http.StatusInternalServerError)
 		return
 	}
 
-	_ = ui.Settings(settings).Render(r.Context(), w)
+	redirect(w, r, uri.GetSettingsURI())
 }

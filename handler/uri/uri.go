@@ -30,6 +30,10 @@ func SelectSubtitleURI(infoHash, fileName string) string {
 	return fmt.Sprintf("/torrents/%s/select-subtitle/%s", infoHash, url.QueryEscape(fileName))
 }
 
-func ChangeLanguageURI(locale string) string {
-	return fmt.Sprintf("/settings/change-language/%s", locale)
+func GetSettingsURI() string {
+	return "/settings"
+}
+
+func UpdateSettingURI() string {
+	return "/settings"
 }

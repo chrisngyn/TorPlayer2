@@ -2,6 +2,7 @@ package ui
 
 import "TorPlayer2/i18n"
 import "TorPlayer2/setting"
+import "TorPlayer2/handler/uri"
 
 templ Settings(settings setting.Settings) {
 	@layout(i18n.MustT(ctx, "Settings.Title")) {
@@ -21,13 +22,16 @@ templ Settings(settings setting.Settings) {
 						<div class="flex justify-end">
 							<div class="flex items-center">
 								<select
-									name="language"
-									id="language"
+									name="locale"
+									id="locale"
 									class="rounded border border-gray-400 bg-stone-700 p-2 text-slate-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none"
 									value={ settings.Locale }
+									hx-post={ uri.UpdateSettingURI() }
+									hx-swap="outerHTML"
+									hx-target="body"
 								>
-									<option value="vi">Tiếng Việt <span>🇻🇳</span></option>
-									<option value="en">English <span>🇬🇧</span></option>
+									<option value="vi" selected?={ settings.Locale == "vi" }>Tiếng Việt <span>🇻🇳</span></option>
+									<option value="en" selected?={ settings.Locale == "en" }>English <span>🇬🇧</span></option>
 								</select>
 							</div>
 						</div>
@@ -66,10 +70,21 @@ templ Settings(settings setting.Settings) {
 						<div class="flex justify-end">
 							<div class="flex items-center">
 								<label class="relative inline-flex cursor-pointer items-center">
-									<input type="checkbox" value="" class="peer sr-only" checked?={ settings.DeleteAfterClosed }/>
+									<input
+										name="deleteAfterClosed"
+										id="deleteAfterClosed"
+										type="checkbox"
+										class="peer sr-only"
+										checked?={ settings.DeleteAfterClosed }
+										hx-post={ uri.UpdateSettingURI() }
+										hx-swap="outerHTML"
+										hx-target="body"
+                                        hx-include="[name=deleteAfterClosed]"
+									/>
 									<div
 										class="peer h-7 w-14 rounded-full border-gray-600 bg-stone-700 after:absolute after:start-[4px] after:top-0.5 after:h-6 after:w-6 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-700 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-500 rtl:peer-checked:after:-translate-x-full"
 									></div>
+                                    <input type="hidden" name="deleteAfterClosed" value="false" />
 								</label>
 							</div>
 						</div>

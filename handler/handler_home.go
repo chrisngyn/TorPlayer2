@@ -3,11 +3,11 @@ package handler
 import (
 	"fmt"
 	"net/http"
-	"path"
 
 	"github.com/a-h/templ"
 	"golang.org/x/exp/slog"
 
+	"TorPlayer2/handler/uri"
 	"TorPlayer2/ui"
 )
 
@@ -36,9 +36,8 @@ func (h *Handler) AddTorrent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	infoURL := path.Join("/torrents/", infoHash)
-	w.Header().Set("HX-Redirect", infoURL)
-	http.Redirect(w, r, infoURL, http.StatusSeeOther)
+	infoURL := uri.InfoURI(infoHash)
+	redirect(w, r, infoURL)
 }
 
 func (h *Handler) addTorrentFromTextInput(textInput string) (string, error) {
