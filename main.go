@@ -46,7 +46,7 @@ func main() {
 
 	settings := settingStorage.GetSettings()
 
-	m := torrent.NewManager(settings.DataDir)
+	m := torrent.NewManager(settings.GetCurrentDataDir())
 	closeFns = append(closeFns, closeFn{"torrent manager", m.Close})
 
 	r := chi.NewRouter()
@@ -118,8 +118,8 @@ func openURL(url string) {
 }
 
 func cleanUpStorage(setting setting.Settings) error {
-	if setting.DeleteAfterClosed {
-		if err := os.RemoveAll(setting.DataDir); err != nil {
+	if setting.GetDeleteAfterClosed() {
+		if err := os.RemoveAll(setting.GetCurrentDataDir()); err != nil {
 			return fmt.Errorf("remove data directory: %w", err)
 		}
 	}

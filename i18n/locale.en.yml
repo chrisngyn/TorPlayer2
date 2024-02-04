@@ -57,6 +57,7 @@ Settings:
   DataDir:
     Title: "Data Directory"
     Description: "Change the directory where the application stores data. Need to restart the application to take effect."
+    NewDataDirNotification: "Next time, data will be store at: "
     Change: "Change"
   DeleteAfterClosed:
     Title: "Delete After Closed"

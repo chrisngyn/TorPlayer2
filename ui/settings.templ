@@ -25,13 +25,13 @@ templ Settings(settings setting.Settings) {
 									name="locale"
 									id="locale"
 									class="rounded border border-gray-400 bg-stone-700 p-2 text-slate-100 hover:border-red-700 hover:bg-stone-800 focus:border-red-700 focus:bg-stone-800 focus:outline-none"
-									value={ settings.Locale }
+									value={ settings.GetLocale() }
 									hx-post={ uri.UpdateSettings() }
 									hx-swap="outerHTML"
 									hx-target="body"
 								>
-									<option value="vi" selected?={ settings.Locale == "vi" }>Tiếng Việt <span>🇻🇳</span></option>
-									<option value="en" selected?={ settings.Locale == "en" }>English <span>🇬🇧</span></option>
+									<option value="vi" selected?={ settings.GetLocale() == "vi" }>Tiếng Việt <span>🇻🇳</span></option>
+									<option value="en" selected?={ settings.GetLocale() == "en" }>English <span>🇬🇧</span></option>
 								</select>
 							</div>
 						</div>
@@ -44,15 +44,21 @@ templ Settings(settings setting.Settings) {
 							<p class="text-sm">
 								{ i18n.T(ctx, "Settings.DataDir.Description") }
 							</p>
-							<p class="italic">{ settings.DataDir }</p>
+							<p class="italic">{ settings.GetCurrentDataDir() }</p>
+							if (settings.IsDataDirChanged()) {
+								<p class="">
+									{ i18n.T(ctx, "Settings.DataDir.NewDataDirNotification") }
+									<span class="italic">{ settings.GetLatestDataDir() }</span>
+								</p>
+							}
 						</div>
 						<div class="flex justify-end">
 							<div class="flex items-center">
 								<button
 									class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 shadow-md shadow-stone-900 hover:bg-red-700"
 									hx-post={ uri.ChangeDataDir() }
-                                    hx-swap="outerHTML"
-                                    hx-target="body"
+									hx-swap="outerHTML"
+									hx-target="body"
 								>
 									{ i18n.T(ctx, "Settings.DataDir.Change") }
 								</button>
@@ -60,7 +66,7 @@ templ Settings(settings setting.Settings) {
 						</div>
 					</div>
 				</div>
-				<div class="mt-4 border-b border-gray-400">
+				<div class="mt-4 border-gray-400">
 					<div class="my-4 grid grid-cols-2">
 						<div>
 							<h2 class="text-lg font-semibold leading-4">
@@ -78,7 +84,7 @@ templ Settings(settings setting.Settings) {
 										id="deleteAfterClosed"
 										type="checkbox"
 										class="peer sr-only"
-										checked?={ settings.DeleteAfterClosed }
+										checked?={ settings.GetDeleteAfterClosed() }
 										hx-post={ uri.UpdateSettings() }
 										hx-swap="outerHTML"
 										hx-target="body"

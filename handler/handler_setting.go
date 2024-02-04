@@ -2,11 +2,13 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/ncruces/zenity"
 
 	"TorPlayer2/handler/uri"
+	"TorPlayer2/setting"
 	"TorPlayer2/ui"
 )
 
@@ -24,17 +26,19 @@ func (h *Handler) UpdateSetting(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	settings := h.settingStorage.GetSettings()
-
-	if r.Form.Has("locale") {
-		settings.Locale = r.Form.Get("locale")
-	}
-	if r.Form.Has("deleteAfterClosed") {
-		settings.DeleteAfterClosed = r.Form.Get("deleteAfterClosed") == "on"
-	}
-
-	if err := h.settingStorage.SaveSetting(settings); err != nil {
-		handleError(w, r, "Save setting", err, http.StatusInternalServerError)
+	err := h.settingStorage.UpdateSettings(func(s setting.Settings) (setting.Settings, error) {
+		if r.Form.Has("locale") {
+			if err := s.SetLocale(r.Form.Get("locale")); err != nil {
+				return s, fmt.Errorf("set locale: %w", err)
+			}
+		}
+		if r.Form.Has("deleteAfterClosed") {
+			s.SetDeleteAfterClosed(r.Form.Get("deleteAfterClosed") == "on")
+		}
+		return s, nil
+	})
+	if err != nil {
+		handleError(w, r, "Update setting", err, http.StatusInternalServerError)
 		return
 	}
 
@@ -42,25 +46,28 @@ func (h *Handler) UpdateSetting(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) ChangeDataDir(w http.ResponseWriter, r *http.Request) {
-	settings := h.settingStorage.GetSettings()
-	newDataDir, err := zenity.SelectFile(
-		zenity.Directory(),
-		zenity.Title("Select data directory"),
-		zenity.Filename(settings.DataDir),
-	)
+	err := h.settingStorage.UpdateSettings(func(s setting.Settings) (setting.Settings, error) {
+		newDataDir, err := zenity.SelectFile(
+			zenity.Directory(),
+			zenity.Title("Select data directory"),
+			zenity.Filename(s.GetCurrentDataDir()),
+		)
+		if err != nil {
+			return s, fmt.Errorf("select data directory: %w", err)
+		}
+
+		if err := s.SetDataDir(newDataDir); err != nil {
+			return s, fmt.Errorf("set data directory: %w", err)
+		}
+
+		return s, nil
+	})
 	if errors.Is(err, zenity.ErrCanceled) {
 		redirect(w, r, uri.GetSettings())
 		return
 	}
 	if err != nil {
-		handleError(w, r, "Select data directory", err, http.StatusInternalServerError)
-		return
-	}
-
-	settings.DataDir = newDataDir
-
-	if err := h.settingStorage.SaveSetting(settings); err != nil {
-		handleError(w, r, "Save setting", err, http.StatusInternalServerError)
+		handleError(w, r, "Update setting", err, http.StatusInternalServerError)
 		return
 	}
 

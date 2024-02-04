@@ -14,6 +14,7 @@ type Storage struct {
 	configFilePath string
 	mu             sync.RWMutex
 	setting        Settings
+	newDataDir     string
 }
 
 func NewStorage() *Storage {
@@ -44,18 +45,25 @@ func (s *Storage) GetSettings() Settings {
 }
 
 func (s *Storage) GetLanguage() string {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	return s.setting.Locale
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.setting.GetLocale()
 }
 
-func (s *Storage) SaveSetting(setting Settings) error {
+func (s *Storage) UpdateSettings(updateFn func(settings Settings) (Settings, error)) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if err := saveSettingsToFile(s.configFilePath, setting); err != nil {
+
+	newSetting, err := updateFn(s.setting)
+	if err != nil {
+		return fmt.Errorf("update setting: %w", err)
+	}
+
+	if err := saveSettingsToFile(s.configFilePath, newSetting); err != nil {
 		return fmt.Errorf("save setting: %w", err)
 	}
-	s.setting = setting
+
+	s.setting = newSetting
 	return nil
 }
 
@@ -77,11 +85,7 @@ func defaultSetting() Settings {
 			panic(fmt.Errorf("create data directory: %w", err))
 		}
 	}
-	return Settings{
-		Locale:            "vi",
-		DataDir:           dataDir,
-		DeleteAfterClosed: true,
-	}
+	return NewSettings("vi", dataDir, true)
 }
 
 func loadSettingsFromFile(configFilePath string) (Settings, error) {
@@ -90,7 +94,7 @@ func loadSettingsFromFile(configFilePath string) (Settings, error) {
 		return Settings{}, fmt.Errorf("read yaml file: %w", err)
 	}
 
-	var setting Settings
+	var setting persistedSettings
 	if err := yaml.Unmarshal(yamlFile, &setting); err != nil {
 		return Settings{}, fmt.Errorf("load yaml file: %w", err)
 	}
@@ -99,11 +103,11 @@ func loadSettingsFromFile(configFilePath string) (Settings, error) {
 		setting.Locale = "vi"
 	}
 
-	return setting, nil
+	return NewSettings(setting.Locale, setting.DataDir, setting.DeleteAfterClosed), nil
 }
 
-func saveSettingsToFile(configFilePath string, setting Settings) error {
-	yamlFile, err := yaml.Marshal(setting)
+func saveSettingsToFile(configFilePath string, settings Settings) error {
+	yamlFile, err := yaml.Marshal(newPersistedSettings(settings))
 	if err != nil {
 		return fmt.Errorf("marshal yaml file: %w", err)
 	}
