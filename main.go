@@ -119,9 +119,17 @@ func openURL(url string) {
 
 func cleanUpStorage(setting setting.Settings) error {
 	if setting.GetDeleteAfterClosed() {
-		if err := os.RemoveAll(setting.GetCurrentDataDir()); err != nil {
-			return fmt.Errorf("remove data directory: %w", err)
+		dif, err := os.ReadDir(setting.GetCurrentDataDir())
+		if err != nil {
+			return fmt.Errorf("read data directory: %w", err)
 		}
+		var errs []error
+		for _, f := range dif {
+			if err := os.RemoveAll(f.Name()); err != nil {
+				errs = append(errs, fmt.Errorf("remove %s: %w", f.Name(), err))
+			}
+		}
+		return errors.Join(errs...)
 	}
 	return nil
 }
