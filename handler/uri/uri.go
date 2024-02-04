@@ -37,3 +37,7 @@ func GetSettings() string {
 func UpdateSettings() string {
 	return "/settings"
 }
+
+func ChangeDataDir() string {
+	return "/settings/change-data-dir"
+}

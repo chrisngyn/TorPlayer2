@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
+
+	"github.com/ncruces/zenity"
 
 	"TorPlayer2/handler/uri"
 	"TorPlayer2/ui"
@@ -29,6 +32,32 @@ func (h *Handler) UpdateSetting(w http.ResponseWriter, r *http.Request) {
 	if r.Form.Has("deleteAfterClosed") {
 		settings.DeleteAfterClosed = r.Form.Get("deleteAfterClosed") == "on"
 	}
+
+	if err := h.settingStorage.SaveSetting(settings); err != nil {
+		handleError(w, r, "Save setting", err, http.StatusInternalServerError)
+		return
+	}
+
+	redirect(w, r, uri.GetSettings())
+}
+
+func (h *Handler) ChangeDataDir(w http.ResponseWriter, r *http.Request) {
+	settings := h.settingStorage.GetSettings()
+	newDataDir, err := zenity.SelectFile(
+		zenity.Directory(),
+		zenity.Title("Select data directory"),
+		zenity.Filename(settings.DataDir),
+	)
+	if errors.Is(err, zenity.ErrCanceled) {
+		redirect(w, r, uri.GetSettings())
+		return
+	}
+	if err != nil {
+		handleError(w, r, "Select data directory", err, http.StatusInternalServerError)
+		return
+	}
+
+	settings.DataDir = newDataDir
 
 	if err := h.settingStorage.SaveSetting(settings); err != nil {
 		handleError(w, r, "Save setting", err, http.StatusInternalServerError)

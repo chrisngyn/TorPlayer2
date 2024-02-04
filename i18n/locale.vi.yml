@@ -55,7 +55,7 @@ Settings:
     Description: "Thay đổi ngôn ngữ của ứng dụng"
   DataDir:
     Title: "Thư mục dữ liệu"
-    Description: "Thay đổi thư mục lưu trữ dữ liệu của ứng dụng"
+    Description: "Thay đổi thư mục lưu trữ dữ liệu của ứng dụng. Cần khởi động lại ứng dụng để có hiệu lực."
     Change: "Thay đổi"
   DeleteAfterClosed:
     Title: "Xóa khi đóng"

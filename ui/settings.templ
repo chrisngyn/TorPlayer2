@@ -50,6 +50,9 @@ templ Settings(settings setting.Settings) {
 							<div class="flex items-center">
 								<button
 									class="rounded-sm bg-red-600 px-4 py-2 text-slate-100 shadow-md shadow-stone-900 hover:bg-red-700"
+									hx-post={ uri.ChangeDataDir() }
+                                    hx-swap="outerHTML"
+                                    hx-target="body"
 								>
 									{ i18n.T(ctx, "Settings.DataDir.Change") }
 								</button>

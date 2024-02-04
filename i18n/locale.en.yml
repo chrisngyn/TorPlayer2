@@ -56,7 +56,7 @@ Settings:
     Description: "Change the language of the application"
   DataDir:
     Title: "Data Directory"
-    Description: "Change the directory where the application stores data"
+    Description: "Change the directory where the application stores data. Need to restart the application to take effect."
     Change: "Change"
   DeleteAfterClosed:
     Title: "Delete After Closed"

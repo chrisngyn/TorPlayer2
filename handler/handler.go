@@ -99,6 +99,7 @@ func (h *Handler) Register(r chi.Router) {
 	// setting
 	r.Get("/settings", h.GetSettings)
 	r.Post("/settings", h.UpdateSetting)
+	r.Post("/settings/change-data-dir", h.ChangeDataDir)
 
 }
 
