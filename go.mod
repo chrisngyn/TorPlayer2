@@ -9,9 +9,10 @@ require (
 	github.com/anacrolix/torrent v1.53.3
 	github.com/asticode/go-astisub v0.26.2
 	github.com/gabriel-vasile/mimetype v1.4.3
-	github.com/gen2brain/beeep v0.0.0-20240112042604-c7bb2cd88fea
+	github.com/ncruces/zenity v0.10.11
 	github.com/nicksnyder/go-i18n/v2 v2.4.0
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
+	golang.org/x/text v0.14.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -20,16 +21,11 @@ require (
 	github.com/asticode/go-astikit v0.20.0 // indirect
 	github.com/asticode/go-astits v1.8.0 // indirect
 	github.com/dchest/jsmin v0.0.0-20220218165748-59f39799265f // indirect
-	github.com/go-toast/toast v0.0.0-20190211030409-01e6764cf0a4 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/josephspurrier/goversioninfo v1.4.0 // indirect
-	github.com/ncruces/zenity v0.10.11 // indirect
-	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
 	github.com/randall77/makefat v0.0.0-20210315173500-7ddd0e42c844 // indirect
-	github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af // indirect
 	github.com/tevino/abool v1.2.0 // indirect
 	golang.org/x/image v0.15.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
 )
 
 require (
