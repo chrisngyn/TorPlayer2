@@ -80,4 +80,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            */bin/*.{pkg,exe,deb}
+            */bin/*.pkg
+            */bin/*.deb
+            */bin/*.exe
