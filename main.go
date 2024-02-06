@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"fyne.io/systray"
 	"github.com/go-chi/chi/v5"
@@ -125,7 +126,7 @@ func cleanUpStorage(setting setting.Settings) error {
 		}
 		var errs []error
 		for _, f := range dif {
-			if err := os.RemoveAll(f.Name()); err != nil {
+			if err := os.RemoveAll(filepath.Join(setting.GetCurrentDataDir(), f.Name())); err != nil {
 				errs = append(errs, fmt.Errorf("remove %s: %w", f.Name(), err))
 			}
 		}
