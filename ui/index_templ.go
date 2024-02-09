@@ -87,7 +87,23 @@ func Index() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <img class=\"htmx-indicator w-6 h-6\" src=\"/static/loading.svg\"></button></form></div></main>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <img class=\"htmx-indicator w-6 h-6\" src=\"/static/loading.svg\"></button></form><script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var7 := `
+					document.querySelector("input[name='fileInput']").addEventListener("change", (e) => {
+						document.querySelector("input[name='textInput']").value = "";
+					});
+					document.querySelector("input[name='textInput']").addEventListener("input", (e) => {
+						document.querySelector("input[name='fileInput']").value = "";
+					});
+				`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var7)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

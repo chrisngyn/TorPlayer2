@@ -38,10 +38,18 @@ templ Index() {
 						type="submit"
 						class="inline-flex justify-center items-center space-x-1 my-3 rounded bg-red-600 px-6 py-2 hover:bg-red-700 disabled:bg-stone-500 inline"
 					>
-						<span>{ i18n.T(ctx, "Home.GetInfoButton.Text")}</span>
+						<span>{ i18n.T(ctx, "Home.GetInfoButton.Text") }</span>
 						<img class="htmx-indicator w-6 h-6" src="/static/loading.svg"/>
 					</button>
 				</form>
+				<script>
+					document.querySelector("input[name='fileInput']").addEventListener("change", (e) => {
+						document.querySelector("input[name='textInput']").value = "";
+					});
+					document.querySelector("input[name='textInput']").addEventListener("input", (e) => {
+						document.querySelector("input[name='fileInput']").value = "";
+					});
+				</script>
 			</div>
 		</main>
 	}
