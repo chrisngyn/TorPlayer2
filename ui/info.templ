@@ -12,6 +12,7 @@ templ Info(infoHash string, info torrent.Info) {
 			hx-trigger="every 1s"
 			hx-swap="outerHTML"
 			hx-target="body"
+			hx-sync="this:abort"
 			hx-indicator="none"
 		>
 			<p class="text-sm italic">Info Hash: { infoHash }</p>
@@ -64,7 +65,7 @@ templ Info(infoHash string, info torrent.Info) {
 										hx-get={ uri.OpenInVLC(infoHash, file.DisplayPath) }
 										hx-trigger="click"
 										hx-swap="none"
-										hx-indicator=".htmx-indicator"
+										hx-indicator="find .htmx-indicator"
 										class="inline-flex justify-center items-center space-x-1 rounded-sm bg-red-600 px-4 py-2 text-slate-100 hover:bg-red-700 shadow-md shadow-stone-900"
 									>
 										<i class="fa-solid fa-film"></i>
